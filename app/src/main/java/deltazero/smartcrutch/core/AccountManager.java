@@ -1,55 +1,70 @@
 package deltazero.smartcrutch.core;
 
+import android.app.Activity;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.IOException;
 
+import deltazero.smartcrutch.ui.LoginActivity;
+import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-
 class LoginJsonResp {
+
     public int code;
     public String msg;
+
 }
 
 public class AccountManager {
 
+
     public String serverUrl = "http://192.168.3.18:8000/";
 
+    static public final JsonAdapter<LoginJsonResp> loginJsonAdapter = new Moshi.Builder().build()
+            .adapter(LoginJsonResp.class);
+
     private final OkHttpClient client = new OkHttpClient();
-    private final Moshi moshi = new Moshi.Builder().build();
-    private final JsonAdapter<LoginJsonResp> loginJsonAdapter = moshi.adapter(LoginJsonResp.class);
 
     private final static String TAG = "AccountManager";
 
+    private final Handler mHandler = new Handler(Looper.getMainLooper());
+
     public enum LoginStatus {
-        SUCCESS,
-        USER_NOT_EXIST,
-        PASSWORD_ERROR,
-        VALIDATION_ERROR,
-        UNKNOWN_ERROR,
-        NETWORK_ERROR
-    }
+        SUCCESS(0),
+        USER_NOT_EXIST(1),
+        PASSWORD_ERROR(2),
+        NETWORK_ERROR(-1),
+        UNKNOWN_ERROR(-2);
 
-    public static class LoginResult {
+        private final int value;
 
-        public LoginStatus status;
-        public String msg;
+        LoginStatus(int value) {
+            if (value >= 0 && value <= 2)
+                this.value = value;
+            else
+                this.value = -2;
+        }
 
-        public LoginResult (LoginStatus status, String msg) {
-            this.status = status;
-            this.msg = msg;
+        public int getValue() {
+            return value;
         }
     }
 
-    public LoginResult login(String username, String password) {
+
+    public void login(String username, String password, LoginActivity loginActivity) {
 
         Log.d(TAG, "Called login func");
 
@@ -63,25 +78,33 @@ public class AccountManager {
                 .post(formBody)
                 .build();
 
-        try {
 
-            Response response = client.newCall(request).execute();
-            if (!response.isSuccessful()) {
-                Log.w(TAG, "Login failed: network error" + response);
-                return new LoginResult(LoginStatus.NETWORK_ERROR, "Unexpected code " + response);
+        client.newCall(request).enqueue(new Callback() {
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                Log.d(TAG, "Login response: " + resp.msg);
+                LoginJsonResp resp = AccountManager.loginJsonAdapter.fromJson(response.body().source());
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        loginActivity.loginCallback(resp.code, resp.msg);
+                    }
+                });
             }
 
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                Log.w(TAG, "Login failed: network error" + e);
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        loginActivity.loginCallback(LoginStatus.NETWORK_ERROR, "Unexpected code ");
+                    }
+                });
+            }
 
-            LoginJsonResp resp = this.loginJsonAdapter.fromJson(response.body().source());
-            Log.d(TAG, "Login response: " + resp.msg);
-
-            // LoginResp process
-            return new LoginResult(LoginStatus.PASSWORD_ERROR, resp.msg);
-
-        } catch (IOException e) {
-            Log.w(TAG, "Login failed: network error" + e.toString());
-            return new LoginResult(LoginStatus.NETWORK_ERROR, e.toString());
-        }
+        });
 
     }
 

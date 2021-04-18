@@ -22,6 +22,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText etUsername, etPassword;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,8 +54,12 @@ public class LoginActivity extends AppCompatActivity {
         tiPassword.setError(null);
         tiUsername.setError(null);
 
-        LoginResult login_result  = this.accountManager.login(username, password);
-        switch (login_result.status) {
+        this.accountManager.login(username, password, this);
+
+    }
+
+    public void loginCallback(AccountManager.LoginStatus status, String msg) {
+        switch (status) {
             case SUCCESS:
                 break;
             case USER_NOT_EXIST:
@@ -65,7 +70,7 @@ public class LoginActivity extends AppCompatActivity {
                 break;
             case NETWORK_ERROR:
                 Toast.makeText(this,
-                        getString(R.string.error_network).concat(login_result.msg),
+                        getString(R.string.error_network).concat(msg),
                         Toast.LENGTH_LONG).show();
                 break;
             case UNKNOWN_ERROR:
@@ -75,9 +80,11 @@ public class LoginActivity extends AppCompatActivity {
                 break;
             case VALIDATION_ERROR:
                 Toast.makeText(this,
-                        getString(R.string.error_validation).concat(login_result.msg),
+                        getString(R.string.error_validation).concat(msg),
                         Toast.LENGTH_LONG).show();
                 break;
         }
     }
+
+
 }
