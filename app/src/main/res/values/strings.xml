@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">SmartCrutch</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_username">Username</string>
+    <string name="login">Login</string>
+    <string name="button_login">Login</string>
+    <string name="button_register">Register</string>
+    <string name="error_username_empty">Please input username</string>
+    <string name="error_password_empty">Please input password</string>
+    <string name="error_user_not_exist">User not exist</string>
+    <string name="error_password_incorrect">Incorrect password</string>
+    <string name="error_network">Network error</string>
+    <string name="error_validation">Validation error</string>
+    <string name="app_short_info">SmartCrutch App v0.1b</string>
+</resources>
