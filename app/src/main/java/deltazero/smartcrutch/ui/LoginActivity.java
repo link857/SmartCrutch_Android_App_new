@@ -11,14 +11,16 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import deltazero.smartcrutch.R;
 
-import deltazero.smartcrutch.core.AccountManagement;
-import deltazero.smartcrutch.core.AccountManagement.LoginResult;
+import deltazero.smartcrutch.core.AccountManager;
+import deltazero.smartcrutch.core.AccountManager.LoginResult;
 
 public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = LoginActivity.class.getSimpleName();
-    TextInputLayout tiUsername, tiPassword;
-    EditText etUsername, etPassword;
+    private final AccountManager accountManager = new AccountManager();
+    private TextInputLayout tiUsername, tiPassword;
+    private EditText etUsername, etPassword;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +53,7 @@ public class LoginActivity extends AppCompatActivity {
         tiPassword.setError(null);
         tiUsername.setError(null);
 
-        LoginResult login_result  = AccountManagement.login(username, password);
+        LoginResult login_result  = this.accountManager.login(username, password);
         switch (login_result.status) {
             case SUCCESS:
                 break;
@@ -64,17 +66,17 @@ public class LoginActivity extends AppCompatActivity {
             case NETWORK_ERROR:
                 Toast.makeText(this,
                         getString(R.string.error_network).concat(login_result.msg),
-                        Toast.LENGTH_SHORT).show();
+                        Toast.LENGTH_LONG).show();
                 break;
             case UNKNOWN_ERROR:
                 Toast.makeText(this,
                         login_result.msg,
-                        Toast.LENGTH_SHORT).show();
+                        Toast.LENGTH_LONG).show();
                 break;
             case VALIDATION_ERROR:
                 Toast.makeText(this,
                         getString(R.string.error_validation).concat(login_result.msg),
-                        Toast.LENGTH_SHORT).show();
+                        Toast.LENGTH_LONG).show();
                 break;
         }
     }
