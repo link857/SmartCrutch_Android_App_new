@@ -7,21 +7,19 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
 
 import deltazero.smartcrutch.R;
-
-import deltazero.smartcrutch.core.AccountManager;
-import deltazero.smartcrutch.core.AccountManager.LoginResult;
+import deltazero.smartcrutch.core.API;
 
 public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = LoginActivity.class.getSimpleName();
-    private final AccountManager accountManager = new AccountManager();
     private TextInputLayout tiUsername, tiPassword;
     private EditText etUsername, etPassword;
-
-
+    private MaterialButton btLogin;
+    private final API api = new API();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +30,8 @@ public class LoginActivity extends AppCompatActivity {
         etUsername = findViewById(R.id.login_username_edit_text);
         tiPassword = findViewById(R.id.login_password_text_input);
         etPassword = findViewById(R.id.login_password_edit_text);
+
+        btLogin = findViewById(R.id.login_button);
     }
 
     public void handleLoginButtonClick(View view) {
@@ -54,36 +54,39 @@ public class LoginActivity extends AppCompatActivity {
         tiPassword.setError(null);
         tiUsername.setError(null);
 
-        this.accountManager.login(username, password, this);
+        this.api.login(username, password, this);
+
+        btLogin.setEnabled(false);
 
     }
 
-    public void loginCallback(AccountManager.LoginStatus status, String msg) {
+    public void loginCallback(int status, String msg) {
         switch (status) {
-            case SUCCESS:
+            case 0: // SUCCESS
                 break;
-            case USER_NOT_EXIST:
+            case 1: // USER_NOT_EXIST
                 tiUsername.setError(getString(R.string.error_user_not_exist));
                 break;
-            case PASSWORD_ERROR:
+            case 2: // PASSWORD_ERROR
                 tiPassword.setError(getString(R.string.error_password_incorrect));
                 break;
-            case NETWORK_ERROR:
+            case -1: // NETWORK_ERROR
                 Toast.makeText(this,
                         getString(R.string.error_network).concat(msg),
                         Toast.LENGTH_LONG).show();
                 break;
-            case UNKNOWN_ERROR:
+            default: // UNKNOWN_ERROR
                 Toast.makeText(this,
-                        login_result.msg,
+                        msg,
                         Toast.LENGTH_LONG).show();
                 break;
-            case VALIDATION_ERROR:
+            case -2: // VALIDATION_ERROR
                 Toast.makeText(this,
                         getString(R.string.error_validation).concat(msg),
                         Toast.LENGTH_LONG).show();
                 break;
         }
+        btLogin.setEnabled(true);
     }
 
 
