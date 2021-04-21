@@ -12,18 +12,18 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.Serializable;
 
 import deltazero.smartcrutch.ui.LoginActivity;
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class API {
+public class API implements Serializable {
 
     public String serverUrl = "http://192.168.31.114:8000/";
     private final OkHttpClient client = new OkHttpClient();
@@ -31,11 +31,14 @@ public class API {
     public static final MediaType JSON
             = MediaType.parse("application/json; charset=utf-8");
 
+    public String uuid = null;
+
     // Login
 
-    private static class LoginResp {
+    private static class LoginResp implements Serializable {
         public int code;
         public String msg;
+        public String uuid;
     }
 
     private static final JsonAdapter<LoginResp> loginRespAdapter = new Moshi.Builder().build()
@@ -54,7 +57,7 @@ public class API {
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                    loginActivity.loginCallback(-3, e.toString());
+                    loginActivity.loginCallback(-3, e.toString(), null);
                 }
             });
             return;
@@ -73,10 +76,11 @@ public class API {
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 LoginResp resp = API.loginRespAdapter.fromJson(response.body().source());
                 Log.d("login", "Login response: " + resp.msg);
+
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        loginActivity.loginCallback(resp.code, resp.msg);
+                        loginActivity.loginCallback(resp.code, resp.msg, resp.uuid);
                     }
                 });
             }
@@ -87,7 +91,7 @@ public class API {
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        loginActivity.loginCallback(-1, e.toString());
+                        loginActivity.loginCallback(-1, e.toString(), null);
                     }
                 });
             }

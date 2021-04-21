@@ -1,11 +1,11 @@
 package deltazero.smartcrutch.ui;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
@@ -15,11 +15,14 @@ import deltazero.smartcrutch.core.API;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private static final String TAG = LoginActivity.class.getSimpleName();
     private TextInputLayout tiUsername, tiPassword;
     private EditText etUsername, etPassword;
     private MaterialButton btLogin;
+
+    public String uuid = null;
     private final API api = new API();
+
+//    private final API api = (API) getIntent().getSerializableExtra(MainActivity.API_BUNDLE);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,9 +63,14 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    public void loginCallback(int status, String msg) {
+    public void loginCallback(int status, String msg, String uuid) {
         switch (status) {
             case 0: // SUCCESS
+                this.uuid = uuid;
+                Toast.makeText(this,
+                        getString(R.string.login_success),
+                        Toast.LENGTH_LONG).show();
+                finish();
                 break;
             case 1: // USER_NOT_EXIST
                 tiUsername.setError(getString(R.string.error_user_not_exist));
