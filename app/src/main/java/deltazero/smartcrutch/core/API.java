@@ -8,6 +8,7 @@ import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -32,10 +33,6 @@ public class API {
 
     // Login
 
-    private static JSONObject loginReq = new JSONObject();
-    loginReq.put("KEY1", "VALUE1");
-    loginReq.put("KEY2", "VALUE2");
-
     private static class LoginResp {
         public int code;
         public String msg;
@@ -48,10 +45,22 @@ public class API {
 
         Log.d("login", "Called login func");
 
-        RequestBody formBody = new FormBody.Builder()
-                .add("username", username)
-                .add("password", password)
-                .build();
+
+        JSONObject jsonResq = new JSONObject();
+        try {
+            jsonResq.put("username", username);
+            jsonResq.put("password", password);
+        } catch (JSONException e) {
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    loginActivity.loginCallback(-3, e.toString());
+                }
+            });
+            return;
+        }
+
+        RequestBody formBody = RequestBody.create(jsonResq.toString(), JSON);
 
         Request request = new Request.Builder()
                 .url(this.serverUrl.concat("app/login"))
@@ -78,7 +87,7 @@ public class API {
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        loginActivity.loginCallback(-1, "Unexpected code".concat(e.toString()));
+                        loginActivity.loginCallback(-1, e.toString());
                     }
                 });
             }

@@ -75,14 +75,14 @@ public class LoginActivity extends AppCompatActivity {
                         getString(R.string.error_network).concat(msg),
                         Toast.LENGTH_LONG).show();
                 break;
-            default: // UNKNOWN_ERROR
-                Toast.makeText(this,
-                        msg,
-                        Toast.LENGTH_LONG).show();
-                break;
             case -2: // VALIDATION_ERROR
                 Toast.makeText(this,
                         getString(R.string.error_validation).concat(msg),
+                        Toast.LENGTH_LONG).show();
+                break;
+            default: // UNKNOWN_ERROR
+                Toast.makeText(this,
+                        msg,
                         Toast.LENGTH_LONG).show();
                 break;
         }
