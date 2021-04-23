@@ -25,7 +25,7 @@ import okhttp3.Response;
 
 public class API implements Serializable {
 
-    public String serverUrl = "http://192.168.31.114:8000/";
+    public String serverUrl = "http://192.168.3.18:8000/";
     private final OkHttpClient client = new OkHttpClient();
     private final Handler mHandler = new Handler(Looper.getMainLooper());
     public static final MediaType JSON
