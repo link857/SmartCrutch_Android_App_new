@@ -15,4 +15,6 @@
     <string name="login_success">Login success</string>
     <string name="status_image_description">Crutch status</string>
     <string name="text_view_dashboard">Dashboard</string>
+    <string name="back_again_to_exit">Please click BACK again to exit</string>
+    <string name="toast_require_login">Please login</string>
 </resources>

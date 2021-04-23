@@ -1,6 +1,7 @@
 package deltazero.smartcrutch.ui;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -19,6 +20,8 @@ public class LoginActivity extends AppCompatActivity {
     private EditText etUsername, etPassword;
     private MaterialButton btLogin;
 
+//    private boolean doubleBackToExitPressedOnce;
+
     public String uuid = null;
     private final API api = new API();
 
@@ -35,6 +38,21 @@ public class LoginActivity extends AppCompatActivity {
         etPassword = findViewById(R.id.login_password_edit_text);
 
         btLogin = findViewById(R.id.login_button);
+    }
+
+    @Override
+    public void onBackPressed() {
+//        if (doubleBackToExitPressedOnce) {
+////            super.onBackPressed();
+//            android.os.Process.killProcess(android.os.Process.myPid());
+//            return;
+//        }
+//
+//        this.doubleBackToExitPressedOnce = true;
+//        Toast.makeText(this, getString(R.string.back_again_to_exit), Toast.LENGTH_SHORT).show();
+//
+//        new Handler().postDelayed(() -> doubleBackToExitPressedOnce=false, 2000);
+        Toast.makeText(this, getString(R.string.toast_require_login), Toast.LENGTH_SHORT).show();
     }
 
     public void handleLoginButtonClick(View view) {

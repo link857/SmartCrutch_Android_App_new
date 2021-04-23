@@ -13,8 +13,7 @@
         android:theme="@style/Theme.SmartCrutch"
         android:usesCleartextTraffic="true">
 
-        <activity android:name=".ui.LoginActivity"
-            android:parentActivityName=".ui.MainActivity" />
+        <activity android:name=".ui.LoginActivity"/>
 
         <activity android:name=".ui.MainActivity"
             android:theme="@style/Theme.MaterialComponents.Light.NoActionBar">
