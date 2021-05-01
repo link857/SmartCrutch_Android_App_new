@@ -53,6 +53,7 @@ public class LoginActivity extends AppCompatActivity {
 //
 //        new Handler().postDelayed(() -> doubleBackToExitPressedOnce=false, 2000);
         Toast.makeText(this, getString(R.string.toast_require_login), Toast.LENGTH_SHORT).show();
+        super.onBackPressed();
     }
 
     public void handleLoginButtonClick(View view) {
