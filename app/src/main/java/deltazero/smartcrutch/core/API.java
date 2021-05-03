@@ -4,6 +4,8 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
 
@@ -29,15 +31,9 @@ public class API {
     public static final MediaType JSON
             = MediaType.parse("application/json; charset=utf-8");
 
-    private final OkHttpClient client = new OkHttpClient();
-    private final Handler mHandler = new Handler(Looper.getMainLooper());
-    public String serverUrl = "http://39.103.138.199:5283/";
-    public String uuid;
-
-    public API(String uuid) {
-        this.uuid = uuid;
-    }
-
+    private final static OkHttpClient client = new OkHttpClient();
+    private final static Handler mHandler = new Handler(Looper.getMainLooper());
+    public static final String serverUrl = "http://39.103.138.199:5283/";
 
     /* Login
 
@@ -67,10 +63,9 @@ public class API {
     private static final JsonAdapter<LoginResp> loginRespAdapter = new Moshi.Builder().build()
             .adapter(LoginResp.class);
 
-    public void login(String username, String password, LoginActivity uiActivity) {
+    public static void login(String username, String password, LoginActivity uiActivity) {
 
         Log.d("login", "Called login func");
-
 
         JSONObject jsonResq = new JSONObject();
         try {
@@ -84,7 +79,7 @@ public class API {
         RequestBody formBody = RequestBody.create(jsonResq.toString(), JSON);
 
         Request request = new Request.Builder()
-                .url(this.serverUrl.concat("app/login"))
+                .url(serverUrl.concat("app/login"))
                 .post(formBody)
                 .build();
 
@@ -139,10 +134,15 @@ public class API {
     private static final JsonAdapter<GetStatusResp> getStatusRespAdapter = new Moshi.Builder().build()
             .adapter(GetStatusResp.class);
 
-    public void get_status(MainActivity uiActivity) {
+    public static void get_status(MainActivity uiActivity, @NonNull String uuid) {
+
+        if (uuid == null) {
+            mHandler.post(() -> uiActivity.updateStatus(1, "null uuid", null));
+            return;
+        }
 
         Request request = new Request.Builder()
-                .url(this.serverUrl.concat(String.format("app/get_status/%s", this.uuid)))
+                .url(serverUrl.concat(String.format("app/get_status/%s", uuid)))
                 .get()
                 .build();
 
@@ -200,14 +200,21 @@ public class API {
     private static final JsonAdapter<GetLocResp> getLocRespAdapter = new Moshi.Builder().build()
             .adapter(GetLocResp.class);
 
-    public void getLoc(MapActivity uiActivity) {
+    public static void getLoc(MapActivity uiActivity, @NotNull String uuid) {
+
+
+        if (uuid == null) {
+            mHandler.post(() -> uiActivity.updateLoc(1, "null uuid", 0, 0));
+            return;
+        }
 
         Request request = new Request.Builder()
-                .url(this.serverUrl.concat(String.format("app/get_loc/%s", this.uuid)))
+                .url(serverUrl.concat(String.format("app/get_loc/%s", uuid)))
                 .get()
                 .build();
 
         client.newCall(request).enqueue(new Callback() {
+
 
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {

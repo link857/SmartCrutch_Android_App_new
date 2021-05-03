@@ -1,5 +1,7 @@
 package deltazero.smartcrutch.core;
 
+import androidx.annotation.NonNull;
+
 import java.util.TimerTask;
 
 import deltazero.smartcrutch.ui.MainActivity;
@@ -9,27 +11,31 @@ public class utils {
 
     public static class GetStatusTimerTask extends TimerTask {
         MainActivity mainActivity;
+        String uuid;
 
-        public GetStatusTimerTask(MainActivity mainActivity) {
+        public GetStatusTimerTask(MainActivity mainActivity, @NonNull String uuid) {
             this.mainActivity = mainActivity;
+            this.uuid = uuid;
         }
 
         @Override
         public void run() {
-            mainActivity.api.get_status(mainActivity);
+            API.get_status(mainActivity, uuid);
         }
     }
 
     public static class GetLocTimerTask extends TimerTask {
         MapActivity mapActivity;
+        String uuid;
 
-        public GetLocTimerTask(MapActivity mapActivity) {
+        public GetLocTimerTask(MapActivity mapActivity, @NonNull String uuid) {
             this.mapActivity = mapActivity;
+            this.uuid = uuid;
         }
 
         @Override
         public void run() {
-            mapActivity.api.getLoc(mapActivity);
+            API.getLoc(mapActivity, uuid);
         }
     }
 

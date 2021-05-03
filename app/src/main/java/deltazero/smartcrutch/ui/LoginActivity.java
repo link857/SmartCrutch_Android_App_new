@@ -20,7 +20,7 @@ public class LoginActivity extends AppCompatActivity {
     private SharedPreferences mPrefs;
     private SharedPreferences.Editor mPrefEditor;
 
-    private final API api = new API(null);
+    private final API api = new API();
 
     private TextInputLayout tiUsername, tiPassword;
     private EditText etUsername, etPassword;
@@ -69,7 +69,7 @@ public class LoginActivity extends AppCompatActivity {
         tiPassword.setError(null);
         tiUsername.setError(null);
 
-        this.api.login(username, password, this);
+        API.login(username, password, this);
 
         btLogin.setEnabled(false);
 
@@ -80,7 +80,7 @@ public class LoginActivity extends AppCompatActivity {
             case 0: // SUCCESS
                 mPrefEditor.putString("uuid", uuid);
                 mPrefEditor.commit();
-                Log.d("Login", String.format("Login successfully: uuid=%s", uuid));
+                Log.e("Login", String.format("Login successfully: uuid=%s", uuid));
                 Toast.makeText(this,
                         getString(R.string.login_success),
                         Toast.LENGTH_LONG).show();

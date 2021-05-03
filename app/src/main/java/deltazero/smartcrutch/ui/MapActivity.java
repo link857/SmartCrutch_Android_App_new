@@ -22,6 +22,7 @@ public class MapActivity extends AppCompatActivity {
 
     public API api;
     public Timer timer;
+    public String uuid;
     private MapView mMapView = null;
     private AMap aMap;
     private TextView tvLocDescription, tvLoc;
@@ -32,9 +33,8 @@ public class MapActivity extends AppCompatActivity {
         setContentView(R.layout.activity_map);
 
         // Get uuid & init api
-        String uuid = getSharedPreferences("deltazero.smartcrutch.prefs", MODE_PRIVATE)
+        uuid = getSharedPreferences("deltazero.smartcrutch.prefs", MODE_PRIVATE)
                 .getString("uuid", null);
-        api = new API(uuid);
 
         // Init map
         mMapView = (MapView) findViewById(R.id.map_view);
@@ -66,7 +66,7 @@ public class MapActivity extends AppCompatActivity {
         super.onResume();
         mMapView.onResume();
         timer = new Timer();
-        timer.scheduleAtFixedRate(new utils.GetLocTimerTask(this), 0, 1000);
+        timer.scheduleAtFixedRate(new utils.GetLocTimerTask(this, uuid), 0, 1000);
     }
 
     @Override
@@ -91,6 +91,7 @@ public class MapActivity extends AppCompatActivity {
             case 1:
                 // invalid uuid
                 // TODO: Force re-login
+                Log.w("MapActivity", msg);
                 break;
             case -1:
                 // no loc info

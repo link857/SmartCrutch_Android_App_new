@@ -11,7 +11,7 @@
     <string name="error_password_incorrect">Incorrect password</string>
     <string name="error_network">Network error</string>
     <string name="error_validation">Validation error</string>
-    <string name="app_short_info">SmartCrutch App v0.1b</string>
+    <string name="app_short_info">SmartCrutch App v0.3b</string>
     <string name="login_success">Login success</string>
     <string name="status_image_description">Crutch status</string>
     <string name="text_view_dashboard">Dashboard</string>

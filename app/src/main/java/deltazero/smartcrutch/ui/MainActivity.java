@@ -15,14 +15,12 @@ import com.google.android.material.card.MaterialCardView;
 import java.util.Timer;
 
 import deltazero.smartcrutch.R;
-import deltazero.smartcrutch.core.API;
 import deltazero.smartcrutch.core.utils;
 
 public class MainActivity extends AppCompatActivity {
 
     final String LOGTAG = "MainActivity";
     Timer timer = new Timer();
-    public API api;
     private String uuid;
     private TextView tvUserInfo, tvStatus, tvStatusInfo;
     private MaterialButton btViewMap;
@@ -50,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
             Log.i(LOGTAG, "No uuid cache found, start login activity");
 
             Intent intent = new Intent(this, LoginActivity.class);
-            // intent.putExtra(API_BUNDLE, api);
             startActivity(intent);
 
             uuid = mPrefs.getString("uuid", null);
@@ -58,8 +55,6 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Log.i(LOGTAG, String.format("uuid cache found, skip login: uuid=%s", uuid));
         }
-
-        api = new API(uuid);
 
 
         // Init UI
@@ -92,8 +87,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        timer = new Timer();
-        timer.scheduleAtFixedRate(new utils.GetStatusTimerTask(this), 0, 1000);
+        uuid = mPrefs.getString("uuid", null);
+        tvUserInfo.setText(String.format(getString(R.string.user_info_text_view), uuid));
+        if (uuid != null) {
+            timer = new Timer();
+            timer.scheduleAtFixedRate(new utils.GetStatusTimerTask(this, uuid), 0, 1000);
+        } else {
+            Log.e(LOGTAG, "Got null uuid!");
+        }
     }
 
     public void updateStatus(int code, String msg, String status) {
@@ -125,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
 
             case 1:
                 // invalid uuid
+                Log.w(LOGTAG, msg);
                 break;
 
             case -1:
@@ -153,8 +155,6 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
-
-        uuid = mPrefs.getString("uuid", null);
 
     }
 
