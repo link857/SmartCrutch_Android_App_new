@@ -17,12 +17,14 @@
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
         android:textSize="40sp" />
 
+
+
     <TextView
         android:id="@+id/main_user_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginVertical="8dp"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="42dp"
         android:text="@string/user_info_text_view" />
 
     <ScrollView
@@ -39,8 +41,8 @@
                 android:id="@+id/main_card_status"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="26dp"
                 android:layout_marginHorizontal="28dp"
+                android:layout_marginTop="26dp"
                 android:clickable="true"
                 android:focusable="true"
                 app:cardBackgroundColor="@color/LightSlateGray"
@@ -61,8 +63,8 @@
                         android:layout_marginTop="26dp"
                         android:text="@string/status_loading"
                         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-                        android:textSize="22sp"
                         android:textColor="@color/White"
+                        android:textSize="22sp"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -73,26 +75,27 @@
                         android:layout_marginStart="26dp"
                         android:layout_marginTop="2dp"
                         android:text="@string/status_info_loading"
-                        android:textSize="12sp"
                         android:textColor="@color/light_grey"
+                        android:textSize="12sp"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/main_status_text_view" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/main_view_map_button"
                         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                        app:strokeColor="@color/White"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="26dp"
                         android:layout_marginTop="20dp"
                         android:layout_marginBottom="22dp"
+                        android:onClick="launchMapView"
                         android:text="@string/button_view_map"
-                        android:textSize="12sp"
                         android:textColor="@color/White"
+                        android:textSize="12sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/main_status_info_text_view" />
+                        app:layout_constraintTop_toBottomOf="@+id/main_status_info_text_view"
+                        app:strokeColor="@color/White" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -102,20 +105,28 @@
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="47sp"
+                android:layout_marginStart="40sp"
                 android:layout_marginTop="25dp"
                 android:text="@string/button_launch_settings"
-                app:icon="@drawable/ic_snyc_blue_32dp" />
-
+                app:icon="@drawable/ic_settings_grey_24dp" />
 
             <com.google.android.material.button.MaterialButton
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="47sp"
+                android:layout_marginStart="40sp"
+                android:layout_marginTop="15dp"
+                android:text="@string/button_logout"
+                app:icon="@drawable/ic_logout_grey_24dp" />
+
+            <com.google.android.material.button.MaterialButton
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40sp"
                 android:layout_marginTop="15dp"
                 android:text="@string/button_launch_about"
-                app:icon="@drawable/ic_snyc_blue_32dp" />
+                app:icon="@drawable/ic_about_grey_24dp" />
 
         </LinearLayout>
 

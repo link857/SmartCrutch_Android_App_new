@@ -30,4 +30,7 @@
     <string name="status_offline">Offline</string>
     <string name="status_info_offline">Cannot connect to crutch</string>
     <string name="status_network_err">Network Error</string>
+    <string name="no_location_info">No Location Info</string>
+    <string name="no_location">Unable to get the location</string>
+    <string name="button_logout">Logout</string>
 </resources>
