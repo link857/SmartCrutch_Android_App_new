@@ -1,6 +1,7 @@
 package deltazero.smartcrutch.ui;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -27,6 +28,9 @@ public class MainActivity extends AppCompatActivity {
     private MaterialButton btViewMap;
     private MaterialCardView cvStatus;
 
+    private SharedPreferences mPrefs;
+    private SharedPreferences.Editor mPrefEditor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,8 +39,10 @@ public class MainActivity extends AppCompatActivity {
 
         // Get uuid & init api
 
-        uuid = getSharedPreferences("deltazero.smartcrutch.prefs", MODE_PRIVATE)
-                .getString("uuid", null);
+        mPrefs = getSharedPreferences("deltazero.smartcrutch.prefs", MODE_PRIVATE);
+        mPrefEditor = mPrefs.edit();
+
+        uuid = mPrefs.getString("uuid", null);
 
         if (uuid == null) {
 
@@ -47,8 +53,7 @@ public class MainActivity extends AppCompatActivity {
             // intent.putExtra(API_BUNDLE, api);
             startActivity(intent);
 
-            uuid = getSharedPreferences("deltazero.smartcrutch.prefs", MODE_PRIVATE)
-                    .getString("uuid", null);
+            uuid = mPrefs.getString("uuid", null);
 
         } else {
             Log.i(LOGTAG, String.format("uuid cache found, skip login: uuid=%s", uuid));
@@ -69,11 +74,6 @@ public class MainActivity extends AppCompatActivity {
         tvStatus.setText(getString(R.string.status_loading));
         tvStatusInfo.setText(getString(R.string.status_info_loading));
         cvStatus.setCardBackgroundColor(getColor(R.color.LightSlateGray));
-
-
-        // Start timer
-
-        timer.scheduleAtFixedRate(new utils.GetStatusTimerTask(this), 0, 1000);
 
     }
 
@@ -142,6 +142,20 @@ public class MainActivity extends AppCompatActivity {
     public void launchMapView(View view) {
         Intent intent = new Intent(this, MapActivity.class);
         startActivity(intent);
+    }
+
+    public void logout(View view) {
+        timer.cancel();
+
+        Log.i(LOGTAG, "Logged out, start login activity");
+        mPrefEditor.putString("uuid", null);
+        mPrefEditor.commit();
+
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+
+        uuid = mPrefs.getString("uuid", null);
+
     }
 
 }

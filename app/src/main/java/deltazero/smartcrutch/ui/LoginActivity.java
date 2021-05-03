@@ -45,18 +45,8 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-//        if (doubleBackToExitPressedOnce) {
-////            super.onBackPressed();
-//            android.os.Process.killProcess(android.os.Process.myPid());
-//            return;
-//        }
-//
-//        this.doubleBackToExitPressedOnce = true;
-//        Toast.makeText(this, getString(R.string.back_again_to_exit), Toast.LENGTH_SHORT).show();
-//
-//        new Handler().postDelayed(() -> doubleBackToExitPressedOnce=false, 2000);
         Toast.makeText(this, getString(R.string.toast_require_login), Toast.LENGTH_SHORT).show();
-        super.onBackPressed();
+//        super.onBackPressed();
     }
 
     public void handleLoginButtonClick(View view) {

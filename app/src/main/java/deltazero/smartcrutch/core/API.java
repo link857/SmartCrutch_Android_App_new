@@ -15,6 +15,7 @@ import java.io.IOException;
 
 import deltazero.smartcrutch.ui.LoginActivity;
 import deltazero.smartcrutch.ui.MainActivity;
+import deltazero.smartcrutch.ui.MapActivity;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -30,7 +31,7 @@ public class API {
 
     private final OkHttpClient client = new OkHttpClient();
     private final Handler mHandler = new Handler(Looper.getMainLooper());
-    public String serverUrl = "http://192.168.3.18:8000/";
+    public String serverUrl = "http://39.103.138.199:5283/";
     public String uuid;
 
     public API(String uuid) {
@@ -44,7 +45,7 @@ public class API {
         获取拐杖uuid，App登录时调用
 
     Request
-        username: 用户名，不可为空
+        username: 用户名，不可为空http://192.168.3.18:8000/
         password: 密码，不可为空
 
     Response
@@ -159,6 +160,70 @@ public class API {
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 Log.w("get_status", "Get status failed: network error" + e);
                 mHandler.post(() -> uiActivity.updateStatus(-1, e.toString(), null));
+            }
+
+        });
+
+    }
+
+
+
+    /* Get Loc
+    Description
+        获取拐杖状态信息
+
+    Request
+        uuid: 拐杖uuid
+
+    Response
+        code: 返回值:
+            0: 成功
+            1: 无效的uuid
+        msg: 返回值信息
+        loc: 可选项，拐杖位置信息
+            latitude: 纬度
+            longitude: 经度
+
+     */
+
+    private static class GetLocResp {
+        public int code;
+        public String msg;
+        public Loc loc;
+    }
+
+    private static class Loc {
+        public float latitude;
+        public float longitude;
+    }
+
+    private static final JsonAdapter<GetLocResp> getLocRespAdapter = new Moshi.Builder().build()
+            .adapter(GetLocResp.class);
+
+    public void getLoc(MapActivity uiActivity) {
+
+        Request request = new Request.Builder()
+                .url(this.serverUrl.concat(String.format("app/get_loc/%s", this.uuid)))
+                .get()
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                GetLocResp resp = API.getLocRespAdapter.fromJson(response.body().source());
+                Log.d("get_status", "Get loc response: " + resp.msg);
+
+                if (resp.loc != null)
+                    mHandler.post(() -> uiActivity.updateLoc(resp.code, resp.msg, resp.loc.latitude, resp.loc.longitude));
+                else
+                    mHandler.post(() -> uiActivity.updateLoc(-1, "No loc info", 0, 0));
+            }
+
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                Log.w("get_status", "Get loc failed: network error" + e);
+                mHandler.post(() -> uiActivity.updateLoc(-2, e.toString(), 0, 0));
             }
 
         });

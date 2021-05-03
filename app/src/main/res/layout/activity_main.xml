@@ -43,8 +43,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="28dp"
                 android:layout_marginTop="26dp"
-                android:clickable="true"
-                android:focusable="true"
                 app:cardBackgroundColor="@color/LightSlateGray"
                 app:cardElevation="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -117,6 +115,7 @@
                 android:layout_marginStart="40sp"
                 android:layout_marginTop="15dp"
                 android:text="@string/button_logout"
+                android:onClick="logout"
                 app:icon="@drawable/ic_logout_grey_24dp" />
 
             <com.google.android.material.button.MaterialButton

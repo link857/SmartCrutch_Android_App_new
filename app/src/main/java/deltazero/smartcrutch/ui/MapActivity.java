@@ -1,6 +1,8 @@
 package deltazero.smartcrutch.ui;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,53 +11,97 @@ import com.amap.api.maps2d.MapView;
 import com.amap.api.maps2d.model.LatLng;
 import com.amap.api.maps2d.model.MarkerOptions;
 
+import java.util.Timer;
+
 import deltazero.smartcrutch.R;
+import deltazero.smartcrutch.core.API;
+import deltazero.smartcrutch.core.utils;
 
 
 public class MapActivity extends AppCompatActivity {
 
-    MapView mMapView = null;
+    public API api;
+    public Timer timer;
+    private MapView mMapView = null;
+    private AMap aMap;
+    private TextView tvLocDescription, tvLoc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
-        //获取地图控件引用
+        // Get uuid & init api
+        String uuid = getSharedPreferences("deltazero.smartcrutch.prefs", MODE_PRIVATE)
+                .getString("uuid", null);
+        api = new API(uuid);
+
+        // Init map
         mMapView = (MapView) findViewById(R.id.map_view);
-
-        //在activity执行onCreate时执行mMapView.onCreate(savedInstanceState)，创建地图
         mMapView.onCreate(savedInstanceState);
+        aMap = mMapView.getMap();
+        aMap.setMapType(AMap.MAP_TYPE_NORMAL);
 
-        //初始化地图控制器对象
-        AMap mAMap = mMapView.getMap();
+        // Init UI
+        tvLocDescription = findViewById(R.id.map_loc_description);
+        tvLoc = findViewById(R.id.map_loc);
+
+        tvLocDescription.setText(getString(R.string.no_location_info));
+        tvLoc.setText(getString(R.string.no_location));
 
         // For debug
         LatLng pos = new LatLng(39.906901, 116.397972);
-        mAMap.addMarker(new MarkerOptions().position(pos).title("北京").snippet("DefaultMarker"));
+        aMap.addMarker(new MarkerOptions().position(pos).title("北京").snippet("DefaultMarker"));
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         mMapView.onDestroy();
+        timer.cancel();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         mMapView.onResume();
+        timer = new Timer();
+        timer.scheduleAtFixedRate(new utils.GetLocTimerTask(this), 0, 1000);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         mMapView.onPause();
+        timer.cancel();
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         mMapView.onSaveInstanceState(outState);
+    }
+
+    public void updateLoc(int code, String msg, float latitude, float longitude) {
+        switch (code) {
+            case 0:
+                tvLoc.setText(String.format(getString(R.string.location_latlng), latitude, longitude));
+                tvLocDescription.setText(getString(R.string.unknown_location));
+                break;
+            case 1:
+                // invalid uuid
+                // TODO: Force re-login
+                break;
+            case -1:
+                // no loc info
+                tvLocDescription.setText(getString(R.string.no_location_info));
+                tvLoc.setText(getString(R.string.no_location));
+                break;
+            case -2:
+                // Network err
+                tvLocDescription.setText(getString(R.string.no_location_info));
+                tvLoc.setText(getString(R.string.no_location));
+                break;
+        }
     }
 }

@@ -33,4 +33,6 @@
     <string name="no_location_info">No Location Info</string>
     <string name="no_location">Unable to get the location</string>
     <string name="button_logout">Logout</string>
+    <string name="location_latlng">Latitude: %1$f, Longitude: %2$f</string>
+    <string name="unknown_location">Unknown location</string>
 </resources>

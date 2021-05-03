@@ -3,6 +3,7 @@ package deltazero.smartcrutch.core;
 import java.util.TimerTask;
 
 import deltazero.smartcrutch.ui.MainActivity;
+import deltazero.smartcrutch.ui.MapActivity;
 
 public class utils {
 
@@ -18,5 +19,19 @@ public class utils {
             mainActivity.api.get_status(mainActivity);
         }
     }
+
+    public static class GetLocTimerTask extends TimerTask {
+        MapActivity mapActivity;
+
+        public GetLocTimerTask(MapActivity mapActivity) {
+            this.mapActivity = mapActivity;
+        }
+
+        @Override
+        public void run() {
+            mapActivity.api.getLoc(mapActivity);
+        }
+    }
+
 
 }
