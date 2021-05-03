@@ -1,7 +1,8 @@
 package deltazero.smartcrutch.ui;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -16,16 +17,14 @@ import deltazero.smartcrutch.core.API;
 
 public class LoginActivity extends AppCompatActivity {
 
+    private SharedPreferences mPrefs;
+    private SharedPreferences.Editor mPrefEditor;
+
+    private final API api = new API(null);
+
     private TextInputLayout tiUsername, tiPassword;
     private EditText etUsername, etPassword;
     private MaterialButton btLogin;
-
-//    private boolean doubleBackToExitPressedOnce;
-
-    public String uuid = null;
-    private final API api = new API();
-
-//    private final API api = (API) getIntent().getSerializableExtra(MainActivity.API_BUNDLE);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +37,10 @@ public class LoginActivity extends AppCompatActivity {
         etPassword = findViewById(R.id.login_password_edit_text);
 
         btLogin = findViewById(R.id.login_button);
+
+        mPrefs = getSharedPreferences("deltazero.smartcrutch.prefs", MODE_PRIVATE);
+        mPrefEditor = mPrefs.edit();
+
     }
 
     @Override
@@ -85,7 +88,9 @@ public class LoginActivity extends AppCompatActivity {
     public void loginCallback(int status, String msg, String uuid) {
         switch (status) {
             case 0: // SUCCESS
-                this.uuid = uuid;
+                mPrefEditor.putString("uuid", uuid);
+                mPrefEditor.commit();
+                Log.d("Login", String.format("Login successfully: uuid=%s", uuid));
                 Toast.makeText(this,
                         getString(R.string.login_success),
                         Toast.LENGTH_LONG).show();

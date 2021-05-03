@@ -21,4 +21,13 @@
     <string name="button_launch_settings">Settings</string>
     <string name="button_launch_about">About</string>
     <string name="user_info_text_view">UUID: %s</string>
+    <string name="status_loading">Loading</string>
+    <string name="status_info_loading">Communicating with server …</string>
+    <string name="status_ok">OK</string>
+    <string name="status_info_ok">SmartCrutch is running …</string>
+    <string name="status_emergency">EMERGENCY</string>
+    <string name="status_info_emergency">Crutch has detected a collision!</string>
+    <string name="status_offline">Offline</string>
+    <string name="status_info_offline">Cannot connect to crutch</string>
+    <string name="status_network_err">Network Error</string>
 </resources>
