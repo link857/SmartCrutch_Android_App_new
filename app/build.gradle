@@ -10,8 +10,8 @@ android {
         applicationId "deltazero.smartcrutch"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 6
-        versionName "0.3b-fix"
+        versionCode 7
+        versionName "0.4"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

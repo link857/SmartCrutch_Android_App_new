@@ -2,6 +2,8 @@ package deltazero.smartcrutch.ui;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.Timer;
 
@@ -28,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
     private SharedPreferences mPrefs;
     private SharedPreferences.Editor mPrefEditor;
+    private String appVersionName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +59,18 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Log.i(LOGTAG, String.format("uuid cache found, skip login: uuid=%s", uuid));
         }
+
+        // Get app version
+
+        PackageManager manager = this.getPackageManager();
+        PackageInfo info = null;
+        try {
+            info = manager.getPackageInfo(this.getPackageName(), PackageManager.GET_ACTIVITIES);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            // Make compiler happy
+        }
+        appVersionName = info.versionName;
 
 
         // Init UI
@@ -155,7 +171,14 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
+    }
 
+    public void showAbout(View view) {
+        new MaterialAlertDialogBuilder(this)
+                .setTitle(getString(R.string.about_title))
+                .setMessage(String.format(getString(R.string.about_content), appVersionName))
+                .setPositiveButton(getString(R.string.button_close), null)
+                .show();
     }
 
 }

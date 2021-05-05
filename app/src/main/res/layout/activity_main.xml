@@ -125,6 +125,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="40sp"
                 android:layout_marginTop="15dp"
+                android:onClick="showAbout"
                 android:text="@string/button_launch_about"
                 app:icon="@drawable/ic_about_grey_24dp"
                 app:iconPadding="15dp" />

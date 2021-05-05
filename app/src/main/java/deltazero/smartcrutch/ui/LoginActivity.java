@@ -1,10 +1,13 @@
 package deltazero.smartcrutch.ui;
 
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,11 +38,21 @@ public class LoginActivity extends AppCompatActivity {
         etUsername = findViewById(R.id.login_username_edit_text);
         tiPassword = findViewById(R.id.login_password_text_input);
         etPassword = findViewById(R.id.login_password_edit_text);
-
         btLogin = findViewById(R.id.login_button);
+        TextView tvAppInfo = findViewById(R.id.login_app_info);
 
         mPrefs = getSharedPreferences("deltazero.smartcrutch.prefs", MODE_PRIVATE);
         mPrefEditor = mPrefs.edit();
+
+        PackageManager manager = this.getPackageManager();
+        PackageInfo info = null;
+        try {
+            info = manager.getPackageInfo(this.getPackageName(), PackageManager.GET_ACTIVITIES);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            // Make compiler happy
+        }
+        tvAppInfo.setText(String.format(getString(R.string.app_short_info), info.versionName));
 
     }
 

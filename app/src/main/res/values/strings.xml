@@ -11,7 +11,7 @@
     <string name="error_password_incorrect">Incorrect password</string>
     <string name="error_network">Network error</string>
     <string name="error_validation">Validation error</string>
-    <string name="app_short_info" translatable="false">SmartCrutch App v0.3b</string>
+    <string name="app_short_info" translatable="false">SmartCrutch App %s</string>
     <string name="login_success">Login success</string>
     <string name="text_view_dashboard">Dashboard</string>
     <string name="back_again_to_exit">Please click BACK again to exit</string>
@@ -35,4 +35,12 @@
     <string name="location_latlng">Latitude: %1$.2f, Longitude: %2$.2f</string>
     <string name="unknown_location">Unknown location</string>
     <string name="crutch_marker_tag">Your crutch</string>
+    <string name="button_close">Close</string>
+    <string name="about_title">About</string>
+
+    <!-- Long strings -->
+    <string name="about_content" translatable="false">SmartCrutch App v%s\n
+By @DeltaZero (https://github.com/233a344a455)\n\n
+Project repo: https://github.com/SZ2G-RoboticsClub/SmartCrutch-Android-App (Currently private)\n\n
+Copyright © 2021 DeltaZero, All rights reserved.\n\n</string>
 </resources>
