@@ -11,8 +11,8 @@
         android:id="@+id/main_dashboard_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginStart="42dp"
+        android:layout_marginTop="42dp"
         android:text="@string/text_view_dashboard"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
         android:textSize="40sp" />
@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginVertical="8dp"
-        android:layout_marginStart="42dp"
+        android:layout_marginStart="44dp"
         android:text="@string/user_info_text_view" />
 
     <ScrollView
@@ -100,20 +100,22 @@
 
             <com.google.android.material.button.MaterialButton
                 style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="40sp"
-                android:layout_marginTop="25dp"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginHorizontal="42sp"
+                android:gravity="start|center_vertical"
+                android:layout_marginTop="20dp"
                 android:text="@string/button_launch_settings"
                 app:icon="@drawable/ic_settings_grey_24dp"
                 app:iconPadding="15dp" />
 
             <com.google.android.material.button.MaterialButton
                 style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="40sp"
-                android:layout_marginTop="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginHorizontal="42sp"
+                android:gravity="start|center_vertical"
+                android:layout_marginTop="5dp"
                 android:onClick="logout"
                 android:text="@string/button_logout"
                 app:icon="@drawable/ic_logout_grey_24dp"
@@ -121,10 +123,11 @@
 
             <com.google.android.material.button.MaterialButton
                 style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="40sp"
-                android:layout_marginTop="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginHorizontal="42sp"
+                android:gravity="start|center_vertical"
+                android:layout_marginTop="5dp"
                 android:onClick="showAbout"
                 android:text="@string/button_launch_about"
                 app:icon="@drawable/ic_about_grey_24dp"
