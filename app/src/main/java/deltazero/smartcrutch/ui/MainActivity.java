@@ -66,9 +66,9 @@ public class MainActivity extends AppCompatActivity {
         btViewMap = findViewById(R.id.main_view_map_button);
 
         tvUserInfo.setText(String.format(getString(R.string.user_info_text_view), uuid));
-        tvStatus.setText(getString(R.string.status_loading));
-        tvStatusInfo.setText(getString(R.string.status_info_loading));
-        cvStatus.setCardBackgroundColor(getColor(R.color.LightSlateGray));
+//        tvStatus.setText(getString(R.string.status_loading));
+//        tvStatusInfo.setText(getString(R.string.status_info_loading));
+//        cvStatus.setCardBackgroundColor(getColor(R.color.LightSlateGray));
 
     }
 

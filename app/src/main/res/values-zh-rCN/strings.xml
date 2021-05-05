@@ -31,4 +31,5 @@
     <string name="button_logout">注销</string>
     <string name="location_latlng">纬度: %1$f, 经度: %2$f</string>
     <string name="unknown_location">未知的地点</string>
+    <string name="crutch_marker_tag">Your crutch</string>
 </resources>
