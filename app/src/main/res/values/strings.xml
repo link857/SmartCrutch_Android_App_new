@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name" translatable="false">SmartCrutch</string>
-    <string name="hint_password">Password</string>
-    <string name="hint_username">Username</string>
+    <string name="password">Password</string>
+    <string name="username">Username</string>
     <string name="login">Login</string>
     <string name="button_login">Login</string>
     <string name="button_register">Register</string>
@@ -37,10 +37,15 @@
     <string name="crutch_marker_tag">Your crutch</string>
     <string name="button_close">Close</string>
     <string name="about_title">About</string>
-
-    <!-- Long strings -->
     <string name="about_content" translatable="false">\nSmartCrutch App v%s\n
 By @DeltaZero (https://github.com/233a344a455)\n\n
 Project repo: https://github.com/SZ2G-RoboticsClub/SmartCrutch-Android-App (Currently private)\n\n
 Copyright © 2021 DeltaZero, All rights reserved.\n</string>
+    <string name="map_activity_title">Map</string>
+    <string name="crutch_settings_subtitle">Crutch Settings</string>
+    <string name="emergency_tel">Emergency Tel.</string>
+    <string name="clink_to_set">Clink to set</string>
+    <string name="home_location">Home Location</string>
+    <string name="app_settings_subtitle">APP Settings</string>
+    <string name="language">Language</string>
 </resources>
