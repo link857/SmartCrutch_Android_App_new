@@ -162,6 +162,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void launchSettings(View view) {
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
+    }
+
     public void logout(View view) {
         timer.cancel();
 

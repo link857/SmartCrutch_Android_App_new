@@ -27,10 +27,13 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="setEmergencyTel">
 
                 <TextView
-                    android:id="@+id/settings_tv_phone"
+                    android:id="@+id/settings_tv_tel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="40dp"
@@ -39,10 +42,10 @@
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2" />
 
                 <TextView
-                    android:id="@+id/settings_tv_phone_info"
+                    android:id="@+id/settings_tv_tel_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/settings_tv_phone"
+                    android:layout_below="@+id/settings_tv_tel"
                     android:layout_marginStart="40dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="16dp"
@@ -52,7 +55,10 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="setHomeLoc">
 
                 <TextView
                     android:id="@+id/settings_tv_home"
@@ -77,7 +83,10 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="setPassword">
 
                 <TextView
                     android:id="@+id/settings_tv_password"
@@ -112,7 +121,9 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true">
 
                 <TextView
                     android:id="@+id/settings_tv_language"

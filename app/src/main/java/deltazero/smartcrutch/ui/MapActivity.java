@@ -43,7 +43,7 @@ public class MapActivity extends AppCompatActivity {
         // Init UI
         tvLocDescription = findViewById(R.id.map_loc_description);
         tvLoc = findViewById(R.id.map_loc);
-        getActionBar().setTitle(getString(R.string.map_activity_title));
+        getSupportActionBar().setTitle(getString(R.string.map_activity_title));
 
         // Get uuid
         uuid = getSharedPreferences("deltazero.smartcrutch.prefs", MODE_PRIVATE)

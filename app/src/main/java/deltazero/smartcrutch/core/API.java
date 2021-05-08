@@ -18,6 +18,7 @@ import java.io.IOException;
 import deltazero.smartcrutch.ui.LoginActivity;
 import deltazero.smartcrutch.ui.MainActivity;
 import deltazero.smartcrutch.ui.MapActivity;
+import deltazero.smartcrutch.ui.SettingsActivity;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -231,6 +232,78 @@ public class API {
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 Log.w("get_status", "Get loc failed: network error" + e);
                 mHandler.post(() -> uiActivity.updateLoc(-2, e.toString(), 0, 0));
+            }
+
+        });
+
+    }
+
+
+
+    /* Get Settings
+
+    Description
+        获取拐杖设置信息，类似 demoboard/get_settings，但uuid不存在不会自动注册
+
+    Request
+        uuid: 拐杖uuid
+
+        Response
+        code: 返回值:
+            0: 成功
+            1: 无效的uuid
+        msg: 返回值信息
+        settings: 设置信息
+            phone: 可选项，紧急联系人电话号码
+            password: 可选项，App登录密码
+            home: 可选项，家庭住址
+
+     */
+
+    private static class GetSettingsResp {
+        public int code;
+        public String msg;
+        public Settings settings;
+    }
+
+    public static class Settings {
+        public String phone;
+        public String password;
+        public String home;
+    }
+
+    private static final JsonAdapter<GetSettingsResp> getSettingsRespAdapter = new Moshi.Builder().build()
+            .adapter(GetSettingsResp.class);
+
+    public static void getSettings(SettingsActivity uiActivity, @NotNull String uuid) {
+
+
+        if (uuid == null) {
+            mHandler.post(() -> uiActivity.loadSettings(1, "null uuid", null));
+            return;
+        }
+
+        Request request = new Request.Builder()
+                .url(serverUrl.concat(String.format("app/get_settings/%s", uuid)))
+                .get()
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                GetSettingsResp resp = API.getSettingsRespAdapter.fromJson(response.body().source());
+                Log.d("get_status", "Get settings response: " + resp.msg);
+
+                mHandler.post(() -> uiActivity.loadSettings(resp.code, resp.msg, resp.settings));
+
+            }
+
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                Log.w("get_status", "Get settings failed: network error" + e);
+                mHandler.post(() -> uiActivity.loadSettings(-2, e.toString(), null));
             }
 
         });
