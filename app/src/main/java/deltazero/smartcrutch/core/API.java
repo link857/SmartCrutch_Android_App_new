@@ -47,9 +47,9 @@ public class API {
 
     Response
         code: 返回值:
-        0: 成功
-        1: 用户名不存在
-        2: 密码错误
+            0: 成功
+            1: 用户名不存在
+            2: 密码错误
         msg: 返回值信息
         uuid: 拐杖uuid
 
@@ -135,12 +135,7 @@ public class API {
     private static final JsonAdapter<GetStatusResp> getStatusRespAdapter = new Moshi.Builder().build()
             .adapter(GetStatusResp.class);
 
-    public static void get_status(MainActivity uiActivity, @NonNull String uuid) {
-
-        if (uuid == null) {
-            mHandler.post(() -> uiActivity.updateStatus(1, "null uuid", null));
-            return;
-        }
+    public static void getStatus(MainActivity uiActivity, @NonNull String uuid) {
 
         Request request = new Request.Builder()
                 .url(serverUrl.concat(String.format("app/get_status/%s", uuid)))
@@ -202,12 +197,6 @@ public class API {
             .adapter(GetLocResp.class);
 
     public static void getLoc(MapActivity uiActivity, @NotNull String uuid) {
-
-
-        if (uuid == null) {
-            mHandler.post(() -> uiActivity.updateLoc(1, "null uuid", 0, 0));
-            return;
-        }
 
         Request request = new Request.Builder()
                 .url(serverUrl.concat(String.format("app/get_loc/%s", uuid)))
@@ -277,12 +266,6 @@ public class API {
 
     public static void getSettings(SettingsActivity uiActivity, @NotNull String uuid) {
 
-
-        if (uuid == null) {
-            mHandler.post(() -> uiActivity.loadSettings(1, "null uuid", null));
-            return;
-        }
-
         Request request = new Request.Builder()
                 .url(serverUrl.concat(String.format("app/get_settings/%s", uuid)))
                 .get()
@@ -295,15 +278,13 @@ public class API {
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 GetSettingsResp resp = API.getSettingsRespAdapter.fromJson(response.body().source());
                 Log.d("get_status", "Get settings response: " + resp.msg);
-
                 mHandler.post(() -> uiActivity.loadSettings(resp.code, resp.msg, resp.settings));
-
             }
 
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 Log.w("get_status", "Get settings failed: network error" + e);
-                mHandler.post(() -> uiActivity.loadSettings(-2, e.toString(), null));
+                mHandler.post(() -> uiActivity.loadSettings(-1, e.toString(), null));
             }
 
         });

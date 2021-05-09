@@ -41,4 +41,6 @@
     <string name="home_location">家庭地址</string>
     <string name="app_settings_subtitle">APP设置</string>
     <string name="language">语言</string>
+    <string name="settings_activity_title">设置</string>
+    <string name="error_login_expired">登录过期，请重新登录</string>
 </resources>

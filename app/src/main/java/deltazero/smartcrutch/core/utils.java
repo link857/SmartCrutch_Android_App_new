@@ -20,7 +20,7 @@ public class utils {
 
         @Override
         public void run() {
-            API.get_status(mainActivity, uuid);
+            API.getStatus(mainActivity, uuid);
         }
     }
 

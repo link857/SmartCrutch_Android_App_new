@@ -30,10 +30,11 @@
                 android:layout_height="wrap_content"
                 android:clickable="true"
                 android:focusable="true"
-                android:onClick="setEmergencyTel">
+                android:onClick="setEmergencyTel"
+                android:background="?android:attr/selectableItemBackground">
 
                 <TextView
-                    android:id="@+id/settings_tv_tel"
+                    android:id="@+id/settings_tv_phone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="40dp"
@@ -42,10 +43,10 @@
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2" />
 
                 <TextView
-                    android:id="@+id/settings_tv_tel_info"
+                    android:id="@+id/settings_tv_phone_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/settings_tv_tel"
+                    android:layout_below="@+id/settings_tv_phone"
                     android:layout_marginStart="40dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="16dp"
@@ -58,7 +59,8 @@
                 android:layout_height="wrap_content"
                 android:clickable="true"
                 android:focusable="true"
-                android:onClick="setHomeLoc">
+                android:onClick="setHomeLoc"
+                android:background="?android:attr/selectableItemBackground">
 
                 <TextView
                     android:id="@+id/settings_tv_home"
@@ -86,7 +88,8 @@
                 android:layout_height="wrap_content"
                 android:clickable="true"
                 android:focusable="true"
-                android:onClick="setPassword">
+                android:onClick="setPassword"
+                android:background="?android:attr/selectableItemBackground">
 
                 <TextView
                     android:id="@+id/settings_tv_password"
@@ -123,7 +126,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clickable="true"
-                android:focusable="true">
+                android:focusable="true"
+                android:background="?android:attr/selectableItemBackground">
 
                 <TextView
                     android:id="@+id/settings_tv_language"
