@@ -28,11 +28,11 @@
     <string name="status_network_err">网络连接错误</string>
     <string name="no_location_info">无定位信息</string>
     <string name="no_location">无法获取拐杖定位信息</string>
-    <string name="button_logout">注销</string>
+    <string name="button_logout">登出</string>
     <string name="location_latlng">纬度: %1$f, 经度: %2$f</string>
     <string name="unknown_location">未知地点</string>
     <string name="crutch_marker_tag">拐杖位置</string>
-    <string name="button_close">关闭</string>
+    <string name="button_cancel">取消</string>
     <string name="about_title">关于</string>
     <string name="map_activity_title">查看位置</string>
     <string name="crutch_settings_subtitle">云拐杖设置</string>
@@ -43,4 +43,7 @@
     <string name="language">语言</string>
     <string name="settings_activity_title">设置</string>
     <string name="error_login_expired">登录过期，请重新登录</string>
+    <string name="confirm_logout_title">确认退出登录</string>
+    <string name="confirm_logout">您确认要退出登录吗？</string>
+    <string name="easter_egg_activity_title">彩蛋！！！</string>
 </resources>

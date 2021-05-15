@@ -88,7 +88,7 @@ public class MapActivity extends AppCompatActivity {
 
                 pos = new LatLng(latitude, longitude);
                 mAMap.addMarker(new MarkerOptions().position(pos).title(getString(R.string.crutch_marker_tag)));
-                mAMap.animateCamera(CameraUpdateFactory.newLatLngZoom(pos, 12));
+                mAMap.animateCamera(CameraUpdateFactory.newLatLngZoom(pos, 15));
                 break;
 
             case 1:
@@ -110,6 +110,6 @@ public class MapActivity extends AppCompatActivity {
     }
 
     public void moveCamera(View view) {
-        mAMap.animateCamera(CameraUpdateFactory.newLatLngZoom(pos, 12));
+        mAMap.animateCamera(CameraUpdateFactory.newLatLngZoom(pos, 15));
     }
 }

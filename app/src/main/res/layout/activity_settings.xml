@@ -18,20 +18,20 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
                 android:layout_marginTop="30dp"
                 android:layout_marginBottom="15dp"
-                android:layout_marginStart="40dp"
                 android:text="@string/crutch_settings_subtitle"
-                android:textColor="@color/Blue"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:textColor="@color/Blue" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
                 android:clickable="true"
                 android:focusable="true"
-                android:onClick="setEmergencyTel"
-                android:background="?android:attr/selectableItemBackground">
+                android:onClick="setEmergencyTel">
 
                 <TextView
                     android:id="@+id/settings_tv_phone"
@@ -57,10 +57,10 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
                 android:clickable="true"
                 android:focusable="true"
-                android:onClick="setHomeLoc"
-                android:background="?android:attr/selectableItemBackground">
+                android:onClick="setHomeLoc">
 
                 <TextView
                     android:id="@+id/settings_tv_home"
@@ -86,10 +86,10 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
                 android:clickable="true"
                 android:focusable="true"
-                android:onClick="setPassword"
-                android:background="?android:attr/selectableItemBackground">
+                android:onClick="setPassword">
 
                 <TextView
                     android:id="@+id/settings_tv_password"
@@ -115,19 +115,20 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
                 android:layout_marginTop="30dp"
                 android:layout_marginBottom="15dp"
-                android:layout_marginStart="40dp"
                 android:text="@string/app_settings_subtitle"
-                android:textColor="@color/Blue"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:textColor="@color/Blue" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
                 android:clickable="true"
                 android:focusable="true"
-                android:background="?android:attr/selectableItemBackground">
+                android:onClick="setLanguage">
 
                 <TextView
                     android:id="@+id/settings_tv_language"

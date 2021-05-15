@@ -1,5 +1,6 @@
 package deltazero.smartcrutch.ui;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
@@ -167,7 +168,16 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void logout(View view) {
+    public void handle_logout(View view) {
+        new MaterialAlertDialogBuilder(this)
+                .setTitle(getString(R.string.confirm_logout_title))
+                .setMessage(getString(R.string.confirm_logout))
+                .setNegativeButton(getString(R.string.button_cancel), null)
+                .setPositiveButton(getString(R.string.button_logout), (dialogInterface, i) -> logout())
+                .show();
+    }
+
+    public void logout() {
         timer.cancel();
 
         Log.i(LOGTAG, "Logged out, start login activity");
@@ -182,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
         new MaterialAlertDialogBuilder(this)
                 .setTitle(getString(R.string.about_title))
                 .setMessage(String.format(getString(R.string.about_content), appVersionName))
-                .setPositiveButton(getString(R.string.button_close), null)
+                .setPositiveButton(getString(R.string.button_cancel), null)
                 .show();
     }
 

@@ -35,7 +35,7 @@
     <string name="location_latlng">Latitude: %1$.2f, Longitude: %2$.2f</string>
     <string name="unknown_location">Unknown location</string>
     <string name="crutch_marker_tag">Your crutch</string>
-    <string name="button_close">Close</string>
+    <string name="button_cancel">Cancel</string>
     <string name="about_title">About</string>
     <string name="about_content" translatable="false">\nSmartCrutch App v%s\n
 By @DeltaZero (https://github.com/233a344a455)\n\n
@@ -50,6 +50,9 @@ Copyright © 2021 DeltaZero, All rights reserved.\n</string>
     <string name="language">Language</string>
     <string name="settings_activity_title">Settings</string>
     <string name="error_login_expired">Login expired, please login again</string>
-    <string name="language_zh" translatable="false">Simplified Chinese (简体中文)</string>
-    <string name="language_en" translatable="false" >English</string>
+    <string name="language_zh" translatable="false">Simplified Chinese | 简体中文</string>
+    <string name="language_en" translatable="false">English | 英语</string>
+    <string name="confirm_logout_title">Confirm logout</string>
+    <string name="confirm_logout">Are you sure to logout?</string>
+    <string name="easter_egg_activity_title">Found easter egg !!!</string>
 </resources>

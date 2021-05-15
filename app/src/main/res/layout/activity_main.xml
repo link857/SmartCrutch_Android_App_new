@@ -117,7 +117,7 @@
                 android:layout_marginHorizontal="42sp"
                 android:layout_marginTop="5dp"
                 android:gravity="start|center_vertical"
-                android:onClick="logout"
+                android:onClick="handle_logout"
                 android:text="@string/button_logout"
                 app:icon="@drawable/ic_logout_grey_24dp"
                 app:iconPadding="15dp" />
