@@ -78,7 +78,7 @@ public class SettingsActivity extends AppCompatActivity {
                 if (settings.home == null)
                     tvHomeInfo.setText(getString(R.string.clink_to_set));
                 else
-                    tvPhoneInfo.setText(settings.home);
+                    tvHomeInfo.setText(settings.home);
 
                 break;
 
