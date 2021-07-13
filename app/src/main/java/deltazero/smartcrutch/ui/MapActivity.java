@@ -79,12 +79,12 @@ public class MapActivity extends AppCompatActivity {
         mMapView.onSaveInstanceState(outState);
     }
 
-    public void updateLoc(int code, String msg, float latitude, float longitude) {
+    public void updateLoc(int code, String msg, float latitude, float longitude, String info) {
         switch (code) {
             case 0:
                 // TODO: Update location info in real-time
                 tvLoc.setText(String.format(getString(R.string.location_latlng), latitude, longitude));
-                tvLocDescription.setText(getString(R.string.unknown_location));
+                tvLocDescription.setText(info);
 
                 pos = new LatLng(latitude, longitude);
                 mAMap.addMarker(new MarkerOptions().position(pos).title(getString(R.string.crutch_marker_tag)));
