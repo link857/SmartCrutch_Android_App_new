@@ -179,6 +179,7 @@ public class API {
         loc: 可选项，拐杖位置信息
             latitude: 纬度
             longitude: 经度
+            info: 位置描述
 
      */
 
@@ -191,6 +192,7 @@ public class API {
     private static class Loc {
         public float latitude;
         public float longitude;
+        public String info;
     }
 
     private static final JsonAdapter<GetLocResp> getLocRespAdapter = new Moshi.Builder().build()
@@ -212,15 +214,15 @@ public class API {
                 Log.d("get_status", "Get loc response: " + resp.msg);
 
                 if (resp.loc != null)
-                    mHandler.post(() -> uiActivity.updateLoc(resp.code, resp.msg, resp.loc.latitude, resp.loc.longitude));
+                    mHandler.post(() -> uiActivity.updateLoc(resp.code, resp.msg, resp.loc.latitude, resp.loc.longitude, resp.loc.info));
                 else
-                    mHandler.post(() -> uiActivity.updateLoc(-1, "No loc info", 0, 0));
+                    mHandler.post(() -> uiActivity.updateLoc(-1, "No loc info", 0, 0, null));
             }
 
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 Log.w("get_status", "Get loc failed: network error" + e);
-                mHandler.post(() -> uiActivity.updateLoc(-2, e.toString(), 0, 0));
+                mHandler.post(() -> uiActivity.updateLoc(-2, e.toString(), 0, 0, null));
             }
 
         });
