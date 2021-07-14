@@ -103,7 +103,7 @@ public class MapActivity extends AppCompatActivity {
                 break;
             case -2:
                 // Network err
-                tvLocDescription.setText(getString(R.string.no_location_info));
+                tvLocDescription.setText(getString(R.string.error_network));
                 tvLoc.setText(getString(R.string.no_location));
                 break;
         }
