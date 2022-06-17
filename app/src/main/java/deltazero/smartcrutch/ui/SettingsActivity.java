@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,7 +17,8 @@ import deltazero.smartcrutch.core.API;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    private TextView tvPhoneInfo, tvHomeInfo, tvLanguageInfo;
+    private TextView tvLanguageInfo;
+    private EditText etPhoneInfo, etHomeInfo, etPasswordInfo;
     private API.Settings settings;
 
     private int easterEggTriggerCount = 0;
@@ -28,8 +30,9 @@ public class SettingsActivity extends AppCompatActivity {
 
         // Init UI
         getSupportActionBar().setTitle(getString(R.string.settings_activity_title));
-        tvPhoneInfo = findViewById(R.id.settings_tv_phone_info);
-        tvHomeInfo = findViewById(R.id.settings_tv_home_info);
+        etPhoneInfo = findViewById(R.id.settings_tv_phone_info);
+        etHomeInfo = findViewById(R.id.settings_tv_home_info);
+        etPasswordInfo = findViewById(R.id.settings_tv_password_info);
         tvLanguageInfo = findViewById(R.id.settings_tv_language_info);
 
         Log.d("settings", "Language: " + Locale.getDefault().getLanguage());
@@ -70,15 +73,14 @@ public class SettingsActivity extends AppCompatActivity {
             case 0:
                 this.settings = settings;
 
-                if (settings.phone == null)
-                    tvPhoneInfo.setText(getString(R.string.clink_to_set));
-                else
-                    tvPhoneInfo.setText(settings.phone);
+                if (settings.phone != null)
+                    etPhoneInfo.setText(settings.phone);
 
-                if (settings.home == null)
-                    tvHomeInfo.setText(getString(R.string.clink_to_set));
-                else
-                    tvHomeInfo.setText(settings.home);
+                if (settings.home != null)
+                    etHomeInfo.setText(settings.home);
+
+                if (settings.password != null)
+                    etPasswordInfo.setText(settings.password);
 
                 break;
 

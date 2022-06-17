@@ -42,7 +42,7 @@
                     android:text="@string/emergency_tel"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2" />
 
-                <TextView
+                <EditText
                     android:id="@+id/settings_tv_phone_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -50,7 +50,8 @@
                     android:layout_marginStart="40dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="16dp"
-                    android:text="@string/clink_to_set" />
+                    android:hint="@string/click_to_set"
+                    android:textSize="14sp" />
 
             </RelativeLayout>
 
@@ -71,7 +72,7 @@
                     android:text="@string/home_location"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2" />
 
-                <TextView
+                <EditText
                     android:id="@+id/settings_tv_home_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -79,7 +80,8 @@
                     android:layout_marginStart="40dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="16dp"
-                    android:text="@string/clink_to_set" />
+                    android:hint="@string/click_to_set"
+                    android:textSize="14sp" />
 
             </RelativeLayout>
 
@@ -100,7 +102,7 @@
                     android:text="@string/password"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2" />
 
-                <TextView
+                <EditText
                     android:id="@+id/settings_tv_password_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -108,7 +110,8 @@
                     android:layout_marginStart="40dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="16dp"
-                    android:text="@string/clink_to_set" />
+                    android:hint="@string/click_to_set"
+                    android:textSize="14sp" />
 
             </RelativeLayout>
 
@@ -147,7 +150,7 @@
                     android:layout_marginStart="40dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="16dp"
-                    android:text="@string/clink_to_set" />
+                    android:text="@string/click_to_set" />
 
             </RelativeLayout>
 

@@ -34,7 +34,7 @@ public class API {
 
     private final static OkHttpClient client = new OkHttpClient();
     private final static Handler mHandler = new Handler(Looper.getMainLooper());
-    public static final String serverUrl = "http://39.103.138.199:5283/";
+    public static final String serverUrl = "http://192.168.0.114:8000/";
 
     /* Login
 

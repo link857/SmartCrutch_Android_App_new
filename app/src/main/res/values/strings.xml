@@ -44,7 +44,7 @@ Copyright © 2021 DeltaZero, All rights reserved.\n</string>
     <string name="map_activity_title">Map</string>
     <string name="crutch_settings_subtitle">Crutch Settings</string>
     <string name="emergency_tel">Emergency Tel.</string>
-    <string name="clink_to_set">Clink to set</string>
+    <string name="click_to_set">Click to set</string>
     <string name="home_location">Home Location</string>
     <string name="app_settings_subtitle">APP Settings</string>
     <string name="language">Language</string>
