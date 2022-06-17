@@ -34,7 +34,8 @@ public class API {
 
     private final static OkHttpClient client = new OkHttpClient();
     private final static Handler mHandler = new Handler(Looper.getMainLooper());
-    public static final String serverUrl = "http://192.168.0.114:8000/";
+    public static final String serverUrl = "http://192.168.0.114:8000/";                // Tenda_7C8540
+//    public static final String serverUrl = "http://192.168.130.87:8000/";                // 啊哈
 
     /* Login
 
@@ -293,4 +294,76 @@ public class API {
 
     }
 
+    /* Update settings
+
+    Description
+        app保存设置时使用
+
+    Request
+        uuid: 拐杖uuid
+        settings: 拐杖设置信息
+            phone: *可选项*，电话号码
+            password: App登录密码，不可为空
+            home: *可选项*，家庭住址
+
+    Response
+        code: 返回值:
+            0: 成功
+            1: 无效的uuid
+            2: 密码不可为空
+        msg: 返回值信息
+
+     */
+
+    public static class UpdatesettingsResp {
+        public int code;
+        public String msg;
+    }
+
+    private static final JsonAdapter<UpdatesettingsResp> UpdatesettingsRespAdapter = new Moshi.Builder().build()
+            .adapter(UpdatesettingsResp.class);
+
+    public static void update_settings(String uuid, String home, String phone, String password, SettingsActivity uiActivity) {
+
+        Log.d("update_settings", "Called update_settings func");
+
+        JSONObject jsonReq = new JSONObject();
+        JSONObject settings = new JSONObject();
+        try {
+            settings.put("home", home);
+            settings.put("phone", phone);
+            settings.put("password", password);
+            jsonReq.put("uuid", uuid);
+            jsonReq.put("settings", settings);
+        } catch (JSONException e) {
+            mHandler.post(() -> uiActivity.UpdatesettingsCallback(-3, e.toString()));
+            return;
+        }
+
+        RequestBody formBody = RequestBody.create(jsonReq.toString(), JSON);
+
+        Request request = new Request.Builder()
+                .url(serverUrl.concat("app/update_settings"))
+                .post(formBody)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                UpdatesettingsResp resp = API.UpdatesettingsRespAdapter.fromJson(response.body().source());
+                Log.d("update_settings", "Update_settings response: " + resp.msg);
+
+                mHandler.post(() -> uiActivity.UpdatesettingsCallback(resp.code, resp.msg));
+            }
+
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                Log.w("update_settings", "Update_settings failed: network error" + e);
+                mHandler.post(() -> uiActivity.UpdatesettingsCallback(-1, e.toString()));
+            }
+
+        });
+
+    }
 }

@@ -154,6 +154,15 @@
 
             </RelativeLayout>
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_save"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:text="@string/button_save"
+                android:layout_gravity="center"
+                android:onClick="handleUpdateButtonClick"
+                android:backgroundTint="@color/Blue" />
+
         </LinearLayout>
 
     </ScrollView>

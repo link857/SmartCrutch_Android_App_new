@@ -90,4 +90,53 @@ public class SettingsActivity extends AppCompatActivity {
                 Toast.makeText(this, getString(R.string.error_network) + msg, Toast.LENGTH_SHORT).show();
         }
     }
+
+    public void handleUpdateButtonClick(View view) {
+        String phone = etPhoneInfo.getText().toString();
+        String password = etPasswordInfo.getText().toString();
+        String home = etHomeInfo.getText().toString();
+        String uuid = getSharedPreferences("deltazero.smartcrutch.prefs", MODE_PRIVATE)
+                .getString("uuid", null);
+
+        API.update_settings(uuid, home, phone, password, this);
+
+    }
+
+
+    public void UpdatesettingsCallback(int code, String msg) {
+        switch (code) {
+            case 0: // SUCCESS
+//                mPrefEditor.putString("uuid", uuid);
+//                mPrefEditor.commit();
+                Log.e("update_settings", "Update_settings successfully!");
+                Toast.makeText(this,
+                        getString(R.string.update_settings_success),
+                        Toast.LENGTH_LONG).show();
+                finish();
+                break;
+            case 1: // INVALID_UUID
+                Toast.makeText(this,
+                        getString(R.string.error_invalid_uuid),
+                        Toast.LENGTH_LONG).show();
+                break;
+            case 2: // PASSWORD_EMPTY
+                etPasswordInfo.setError(getString(R.string.error_password_empty));
+                break;
+            case -1: // NETWORK_ERROR
+                Toast.makeText(this,
+                        getString(R.string.error_network).concat(msg),
+                        Toast.LENGTH_LONG).show();
+                break;
+            case -2: // VALIDATION_ERROR
+                Toast.makeText(this,
+                        getString(R.string.error_validation).concat(msg),
+                        Toast.LENGTH_LONG).show();
+                break;
+            default: // UNKNOWN_ERROR
+                Toast.makeText(this,
+                        msg,
+                        Toast.LENGTH_LONG).show();
+                break;
+        }
+    }
 }
