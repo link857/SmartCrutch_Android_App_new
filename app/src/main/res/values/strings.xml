@@ -47,6 +47,8 @@
     <string name="crutch_marker_tag">Your crutch</string>
     <string name="button_cancel">Cancel</string>
     <string name="about_title">About</string>
+    <string name="channel_name">Emergency notification</string>
+    <string name="channel_description">There is an emergency</string>
     <string name="about_content" translatable="false">\nSmartCrutch App v%s\n
 By @DeltaZero (https://github.com/233a344a455)\n\n
 Project repo: https://github.com/SZ2G-RoboticsClub/SmartCrutch-Android-App (Currently private)\n\n

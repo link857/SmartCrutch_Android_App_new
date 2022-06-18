@@ -52,10 +52,11 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
+
     public void handleCancelButtonClick(View view) {
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
+        finish();
     }
+
 
     public void handleRegisterButtonClick(View view) {
 

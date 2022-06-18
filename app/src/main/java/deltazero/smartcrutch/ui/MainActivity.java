@@ -1,16 +1,24 @@
 package deltazero.smartcrutch.ui;
 
-import android.content.DialogInterface;
+import android.annotation.SuppressLint;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
@@ -23,6 +31,7 @@ import deltazero.smartcrutch.core.utils;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String CHANNEL_ID = "Emergency notification";
     final String LOGTAG = "MainActivity";
     Timer timer = new Timer();
     private String uuid;
@@ -33,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences mPrefs;
     private SharedPreferences.Editor mPrefEditor;
     private String appVersionName;
+
+    private int activate, notificationsend;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +125,18 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private String createNotificationChannel(String channelID, String channelNAME, int level) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            NotificationChannel channel = new NotificationChannel(channelID, channelNAME, level);
+            manager.createNotificationChannel(channel);
+            return channelID;
+        } else {
+            return null;
+        }
+    }
+
+
     public void updateStatus(int code, String msg, String status) {
         switch (code) {
             case 0:
@@ -130,6 +153,25 @@ public class MainActivity extends AppCompatActivity {
                         tvStatusInfo.setText(getString(R.string.status_info_emergency));
                         cvStatus.setCardBackgroundColor(getColor(R.color.OrangeRed));
                         btViewMap.setEnabled(true);
+
+                        Intent intent = new Intent(this, MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+
+                        String channelId = createNotificationChannel("my_channel_ID", "my_channel_NAME", NotificationManager.IMPORTANCE_MAX);
+
+                        NotificationCompat.Builder notification = new NotificationCompat.Builder(this, channelId)
+                                .setContentTitle(getString(R.string.status_emergency))
+                                .setContentText(getString(R.string.status_info_emergency))
+                                .setContentIntent(pendingIntent)
+                                .setSmallIcon(R.drawable.ic_alarm)
+                                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                                .setAutoCancel(true);
+
+                        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+                        notificationManager.notify(100, notification.build());
+
+
                         break;
 
                     case "offline":
@@ -156,7 +198,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-
 
     public void launchMapView(View view) {
         Intent intent = new Intent(this, MapActivity.class);

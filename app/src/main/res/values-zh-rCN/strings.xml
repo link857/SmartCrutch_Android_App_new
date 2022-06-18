@@ -56,4 +56,6 @@
     <string name="confirm_logout_title">确认退出登录</string>
     <string name="confirm_logout">您确认要退出登录吗？</string>
     <string name="easter_egg_activity_title">彩蛋！！！</string>
+    <string name="channel_name">紧急通知</string>
+    <string name="channel_description">出现紧急情况</string>
 </resources>
