@@ -18,6 +18,7 @@ import java.io.IOException;
 import deltazero.smartcrutch.ui.LoginActivity;
 import deltazero.smartcrutch.ui.MainActivity;
 import deltazero.smartcrutch.ui.MapActivity;
+import deltazero.smartcrutch.ui.RegisterActivity;
 import deltazero.smartcrutch.ui.SettingsActivity;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -366,4 +367,76 @@ public class API {
         });
 
     }
+
+    /* Bind
+
+    Description
+        绑定拐杖到App账号，App注册时调用
+
+    Request
+        uuid: 拐杖uuid
+        username: 用户名，不可为空
+        password: 密码，不可为空
+
+    Response
+        code: 返回值:
+            0: 成功
+            1: 拐杖uuid未注册
+            2: 拐杖uuid已绑定账号
+            3: 密码不可为空
+            4: 用户名不可为空
+            5: 用户名已使用
+        msg: 返回值信息
+
+     */
+
+    private static class BindResp {
+        public int code;
+        public String msg;
+    }
+
+    private static final JsonAdapter<BindResp> BindRespAdapter = new Moshi.Builder().build()
+            .adapter(BindResp.class);
+
+    public static void bind(String uuid, String username, String password, RegisterActivity uiActivity) {
+
+        Log.d("bind", "Called bind func");
+
+        JSONObject jsonBind = new JSONObject();
+        try {
+            jsonBind.put("uuid", uuid);
+            jsonBind.put("username", username);
+            jsonBind.put("password", password);
+        } catch (JSONException e) {
+            mHandler.post(() -> uiActivity.BindCallback(-3, e.toString()));
+            return;
+        }
+
+        RequestBody formBody = RequestBody.create(jsonBind.toString(), JSON);
+
+        Request request = new Request.Builder()
+                .url(serverUrl.concat("app/bind"))
+                .post(formBody)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                BindResp resp = API.BindRespAdapter.fromJson(response.body().source());
+                Log.d("bind", "Bind response: " + resp.msg);
+
+                mHandler.post(() -> uiActivity.BindCallback(resp.code, resp.msg));
+            }
+
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                Log.w("bind", "Bind failed: network error" + e);
+                mHandler.post(() -> uiActivity.BindCallback(-1, e.toString()));
+            }
+
+        });
+
+    }
+
 }

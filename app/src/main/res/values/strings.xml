@@ -10,13 +10,18 @@
     <string name="button_save">Save</string>
     <string name="error_username_empty">Please input username</string>
     <string name="error_password_empty">Please input password</string>
+    <string name="error_uuid_empty">Please input uuid</string>
     <string name="error_user_not_exist">User not exist</string>
     <string name="error_password_incorrect">Incorrect password</string>
     <string name="error_network">Network error</string>
     <string name="error_validation">Validation error</string>
     <string name="error_invalid_uuid">Invalid uuid</string>
+    <string name="error_uuid_not_initialize">Uuid not initialize</string>
+    <string name="error_uuid_once_binded">Uuid once binded</string>
+    <string name="error_username_once_used">Username once used</string>
     <string name="app_short_info" translatable="false">SmartCrutch App %s</string>
     <string name="login_success">Login success</string>
+    <string name="register_success">Register success</string>
     <string name="update_settings_success">Update_settings success</string>
     <string name="text_view_dashboard">Dashboard</string>
     <string name="back_again_to_exit">Please click BACK again to exit</string>

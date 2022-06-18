@@ -29,9 +29,7 @@
         <activity
             android:name=".ui.SettingsActivity"
             android:parentActivityName=".ui.MainActivity" />
-        <activity
-            android:name=".ui.RegisterActivity"
-            android:parentActivityName=".ui.LoginActivity" />
+        <activity android:name=".ui.RegisterActivity" />
         <activity
             android:name=".ui.EasterEggActivity"
             android:parentActivityName=".ui.SettingsActivity" />
