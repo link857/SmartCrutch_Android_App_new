@@ -4,33 +4,50 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.LoginActivity">
+    tools:context=".ui.RegisterActivity">
 
     <ImageView
-        android:id="@+id/login_image_view"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:id="@+id/register_image_view"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="75dp"
+        android:layout_marginTop="55dp"
+        app:srcCompat="@drawable/ic_register_200dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_login_200dp" />
-
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/login_text_view"
+        android:id="@+id/register_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="@string/login"
+        android:text="@string/register"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_image_view" />
-
+        app:layout_constraintTop_toBottomOf="@+id/register_image_view"/>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/login_username_text_input"
+        android:id="@+id/register_uuid_text_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="32dp"
+        android:hint="@string/uuid"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/register_text_view">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/register_uuid_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/register_username_text_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -39,17 +56,17 @@
         android:hint="@string/username"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_text_view">
+        app:layout_constraintTop_toBottomOf="@+id/register_uuid_text_input">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/login_username_edit_text"
+            android:id="@+id/register_username_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/login_password_text_input"
+        android:id="@+id/register_password_text_input"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -59,39 +76,40 @@
         app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/login_username_text_input">
+        app:layout_constraintTop_toBottomOf="@id/register_username_text_input">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/login_password_edit_text"
+            android:id="@+id/register_password_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/login_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:onClick="handleLoginButtonClick"
-        android:text="@string/button_login"
-        app:layout_constraintEnd_toEndOf="@+id/login_password_text_input"
-        app:layout_constraintTop_toBottomOf="@+id/login_password_text_input" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/register_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:onClick="handleRegisterButtonClick"
+        android:text="@string/button_register"
+        app:layout_constraintEnd_toEndOf="@+id/register_password_text_input"
+        app:layout_constraintTop_toBottomOf="@+id/register_password_text_input" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/cancel_button"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:onClick="handleRegisterButtonClick"
-        android:text="@string/button_register"
-        app:layout_constraintEnd_toStartOf="@+id/login_button"
-        app:layout_constraintTop_toBottomOf="@+id/login_password_text_input" />
+        android:onClick="handleCancelButtonClick"
+        android:text="@string/button_cancel"
+        app:layout_constraintEnd_toStartOf="@+id/register_button"
+        app:layout_constraintTop_toBottomOf="@+id/register_password_text_input" />
 
     <TextView
-        android:id="@+id/login_app_info"
+        android:id="@+id/register_app_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"

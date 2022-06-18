@@ -1,5 +1,6 @@
 package deltazero.smartcrutch.ui;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -56,10 +57,18 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+//    @Override
+//    public void onBackPressed() {
+//        Toast.makeText(this, getString(R.string.toast_require_login), Toast.LENGTH_SHORT).show();
+////        super.onBackPressed();
+//    }
+
+    // 按返回键退回桌面
     @Override
-    public void onBackPressed() {
-        Toast.makeText(this, getString(R.string.toast_require_login), Toast.LENGTH_SHORT).show();
-//        super.onBackPressed();
+    public void onBackPressed(){
+        Intent home = new Intent(Intent.ACTION_MAIN);
+        home.addCategory(Intent.CATEGORY_HOME);
+        startActivity(home);
     }
 
     public void handleLoginButtonClick(View view) {
@@ -122,6 +131,11 @@ public class LoginActivity extends AppCompatActivity {
                 break;
         }
         btLogin.setEnabled(true);
+    }
+
+    public void handleRegisterButtonClick(View view) {
+        Intent intent = new Intent(this, RegisterActivity.class);
+        startActivity(intent);
     }
 
 
