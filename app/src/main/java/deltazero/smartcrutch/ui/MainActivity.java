@@ -1,16 +1,13 @@
 package deltazero.smartcrutch.ui;
 
-import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -31,7 +28,6 @@ import deltazero.smartcrutch.core.utils;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String CHANNEL_ID = "Emergency notification";
     final String LOGTAG = "MainActivity";
     Timer timer = new Timer();
     private String uuid;
@@ -43,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences.Editor mPrefEditor;
     private String appVersionName;
 
-    private int activate, notificationsend;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,39 +133,46 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void updateStatus(int code, String msg, String status) {
+
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+
+        String channelId = createNotificationChannel("my_channel_ID", "my_channel_NAME", NotificationManager.IMPORTANCE_MAX);
+
+        NotificationCompat.Builder notification = new NotificationCompat.Builder(this, channelId)
+                .setContentTitle(getString(R.string.status_emergency))
+                .setContentText(getString(R.string.status_info_emergency))
+                .setContentIntent(pendingIntent)
+                .setSmallIcon(R.drawable.ic_alarm)
+                .setPriority(NotificationCompat.PRIORITY_MAX)
+                .setDefaults(Notification.DEFAULT_ALL)
+//                                .setFullScreenIntent(pendingIntent, true)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setAutoCancel(true);
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+
         switch (code) {
             case 0:
                 switch (status) {
-                    case "ok":
-                        tvStatus.setText(getString(R.string.status_ok));
-                        tvStatusInfo.setText(getString(R.string.status_info_ok));
-                        cvStatus.setCardBackgroundColor(getColor(R.color.BlueViolet));
-                        btViewMap.setEnabled(true);
-                        break;
-
                     case "emergency":
                         tvStatus.setText(getString(R.string.status_emergency));
                         tvStatusInfo.setText(getString(R.string.status_info_emergency));
                         cvStatus.setCardBackgroundColor(getColor(R.color.OrangeRed));
                         btViewMap.setEnabled(true);
 
-                        Intent intent = new Intent(this, MainActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
-
-                        String channelId = createNotificationChannel("my_channel_ID", "my_channel_NAME", NotificationManager.IMPORTANCE_MAX);
-
-                        NotificationCompat.Builder notification = new NotificationCompat.Builder(this, channelId)
-                                .setContentTitle(getString(R.string.status_emergency))
-                                .setContentText(getString(R.string.status_info_emergency))
-                                .setContentIntent(pendingIntent)
-                                .setSmallIcon(R.drawable.ic_alarm)
-                                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                                .setAutoCancel(true);
-
-                        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
                         notificationManager.notify(100, notification.build());
 
+                        break;
+
+                    case "ok":
+                        tvStatus.setText(getString(R.string.status_ok));
+                        tvStatusInfo.setText(getString(R.string.status_info_ok));
+                        cvStatus.setCardBackgroundColor(getColor(R.color.BlueViolet));
+                        btViewMap.setEnabled(true);
+
+                        notificationManager.cancelAll();
 
                         break;
 
@@ -179,6 +181,9 @@ public class MainActivity extends AppCompatActivity {
                         tvStatusInfo.setText(getString(R.string.status_info_offline));
                         cvStatus.setCardBackgroundColor(getColor(R.color.LightSlateGray));
                         btViewMap.setEnabled(false);
+
+                        notificationManager.cancelAll();
+
                         break;
                 }
                 break;
@@ -186,6 +191,7 @@ public class MainActivity extends AppCompatActivity {
             case 1:
                 // invalid uuid
                 Log.w(LOGTAG, msg);
+                notificationManager.cancelAll();
                 break;
 
             case -1:
@@ -193,6 +199,7 @@ public class MainActivity extends AppCompatActivity {
                 tvStatusInfo.setText(msg);
                 cvStatus.setCardBackgroundColor(getColor(R.color.LightSlateGray));
                 btViewMap.setEnabled(false);
+                notificationManager.cancelAll();
                 break;
 
         }
