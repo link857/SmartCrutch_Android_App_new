@@ -103,13 +103,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onPause() {
         super.onPause();
-        timer.cancel();
+//        timer.cancel();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        timer.cancel();
+//        timer.cancel();
     }
 
     @Override
