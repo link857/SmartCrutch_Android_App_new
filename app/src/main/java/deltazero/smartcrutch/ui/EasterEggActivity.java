@@ -20,7 +20,7 @@ public class EasterEggActivity extends AppCompatActivity {
 
         getSupportActionBar().setTitle(getString(R.string.easter_egg_activity_title));
 
-        vv = (VideoView) findViewById(R.id.easter_egg_video_view);
+        vv = findViewById(R.id.easter_egg_video_view);
         MediaController mc = new MediaController(this);
         vv.setMediaController(mc);
         vv.setVideoURI(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.damedane));

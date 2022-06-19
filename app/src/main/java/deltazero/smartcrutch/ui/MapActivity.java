@@ -13,16 +13,12 @@ import com.amap.api.maps2d.MapView;
 import com.amap.api.maps2d.model.LatLng;
 import com.amap.api.maps2d.model.MarkerOptions;
 
-import java.util.Timer;
-
 import deltazero.smartcrutch.R;
 import deltazero.smartcrutch.core.API;
 
 
 public class MapActivity extends AppCompatActivity {
 
-    public API api;
-    public Timer timer;
     public String uuid;
     private MapView mMapView = null;
     private AMap mAMap;
@@ -35,7 +31,7 @@ public class MapActivity extends AppCompatActivity {
         setContentView(R.layout.activity_map);
 
         // Init map
-        mMapView = (MapView) findViewById(R.id.map_view);
+        mMapView = findViewById(R.id.map_view);
         mMapView.onCreate(savedInstanceState);
         mAMap = mMapView.getMap();
         mAMap.setMapType(AMap.MAP_TYPE_NORMAL);

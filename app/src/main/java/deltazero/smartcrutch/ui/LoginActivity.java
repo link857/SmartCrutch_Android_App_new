@@ -24,8 +24,6 @@ public class LoginActivity extends AppCompatActivity {
     private SharedPreferences mPrefs;
     private SharedPreferences.Editor mPrefEditor;
 
-    private final API api = new API();
-
     private TextInputLayout tiUsername, tiPassword;
     private EditText etUsername, etPassword;
     private MaterialButton btLogin;

@@ -1,7 +1,6 @@
 package deltazero.smartcrutch.ui;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
+
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -18,7 +17,6 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import deltazero.smartcrutch.R;
 import deltazero.smartcrutch.core.API;
-//import deltazero.smartcrutch.core.API;
 
 public class RegisterActivity extends AppCompatActivity {
     private TextInputLayout tiUuid, tiUsername, tiPassword;

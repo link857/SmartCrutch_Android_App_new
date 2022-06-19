@@ -1,14 +1,20 @@
 package deltazero.smartcrutch.ui;
 
+import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -45,6 +51,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // 锁屏显示
+        setShowWhenLocked(true);
+
 
         // Get uuid & init api
 
@@ -66,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Log.i(LOGTAG, String.format("uuid cache found, skip login: uuid=%s", uuid));
         }
+
 
         // Get app version
 
@@ -89,11 +99,53 @@ public class MainActivity extends AppCompatActivity {
         btViewMap = findViewById(R.id.main_view_map_button);
 
         tvUserInfo.setText(String.format(getString(R.string.user_info_text_view), uuid));
-//        tvStatus.setText(getString(R.string.status_loading));
-//        tvStatusInfo.setText(getString(R.string.status_info_loading));
-//        cvStatus.setCardBackgroundColor(getColor(R.color.LightSlateGray));
+
+        // 检查通知权限是否打开
+        NotificationManagerCompat notification_settings = NotificationManagerCompat.from(this);
+        boolean isEnabled = notification_settings.areNotificationsEnabled();
+
+        if (!isEnabled) {
+            AlertDialog alertDialog = new AlertDialog.Builder(this)
+                    .setTitle("提示")
+                    .setMessage("请在“通知”中打开通知与锁屏通知权限！")
+                    .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    })
+                    .setPositiveButton("去设置", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                            Intent intent = new Intent();
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                intent.setAction("android.settings.APP_NOTIFICATION_SETTINGS");
+                                intent.putExtra("android.provider.extra.APP_PACKAGE", MainActivity.this.getPackageName());
+                            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {  //5.0
+                                intent.setAction("android.settings.APP_NOTIFICATION_SETTINGS");
+                                intent.putExtra("app_package", MainActivity.this.getPackageName());
+                                intent.putExtra("app_uid", MainActivity.this.getApplicationInfo().uid);
+                                startActivity(intent);
+                            } else if (Build.VERSION.SDK_INT >= 15) {
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
+                                intent.setData(Uri.fromParts("package", MainActivity.this.getPackageName(), null));
+                            }
+                            startActivity(intent);
+
+                        }
+                    })
+                    .create();
+
+            alertDialog.show();
+            alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(Color.BLUE);
+            alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLUE);
+        }
 
     }
+
+
 
     @Override
     public void onPause() {
@@ -121,9 +173,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private String createNotificationChannel(String channelID, String channelNAME, int level) {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
             NotificationChannel channel = new NotificationChannel(channelID, channelNAME, level);
+            channel.enableLights(true);
+            channel.enableVibration(true);
             manager.createNotificationChannel(channel);
             return channelID;
         } else {
@@ -133,12 +187,11 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void updateStatus(int code, String msg, String status) {
-
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
-        String channelId = createNotificationChannel("my_channel_ID", "my_channel_NAME", NotificationManager.IMPORTANCE_MAX);
+        String channelId = createNotificationChannel("emergency", "Emergency Notification", NotificationManager.IMPORTANCE_MAX);
 
         NotificationCompat.Builder notification = new NotificationCompat.Builder(this, channelId)
                 .setContentTitle(getString(R.string.status_emergency))
@@ -146,8 +199,7 @@ public class MainActivity extends AppCompatActivity {
                 .setContentIntent(pendingIntent)
                 .setSmallIcon(R.drawable.ic_alarm)
                 .setPriority(NotificationCompat.PRIORITY_MAX)
-                .setDefaults(Notification.DEFAULT_ALL)
-//                                .setFullScreenIntent(pendingIntent, true)
+                .setDefaults(Notification.DEFAULT_SOUND)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setAutoCancel(true);
 
@@ -162,7 +214,7 @@ public class MainActivity extends AppCompatActivity {
                         cvStatus.setCardBackgroundColor(getColor(R.color.OrangeRed));
                         btViewMap.setEnabled(true);
 
-                        notificationManager.notify(100, notification.build());
+                        notificationManager.notify(821, notification.build());
 
                         break;
 

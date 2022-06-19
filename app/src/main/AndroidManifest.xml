@@ -8,9 +8,6 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW" />
-    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
 
     <application
         android:allowBackup="true"
@@ -20,6 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SmartCrutch.DayNight"
         android:usesCleartextTraffic="true">
+
         <!-- Amap api key -->
         <meta-data
             android:name="com.amap.api.v2.apikey"
