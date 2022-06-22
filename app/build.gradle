@@ -8,10 +8,10 @@ android {
 
     defaultConfig {
         applicationId "deltazero.smartcrutch"
-        minSdkVersion 23
+        minSdkVersion 27
         targetSdkVersion 30
         versionCode 8
-        versionName "0.4r1"
+        versionName "0.5r1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

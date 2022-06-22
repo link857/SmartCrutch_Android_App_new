@@ -35,8 +35,9 @@ public class API {
 
     private final static OkHttpClient client = new OkHttpClient();
     private final static Handler mHandler = new Handler(Looper.getMainLooper());
-    public static final String serverUrl = "http://192.168.0.114:8000/";                // Tenda_7C8540
+//    public static final String serverUrl = "http://192.168.0.114:8000/";                // Tenda_7C8540
 //    public static final String serverUrl = "http://192.168.130.87:8000/";                // 啊哈
+    public static final String serverUrl = "http://192.168.31.126:8000/";                // QFCS-MI
 
     /* Login
 

@@ -21,7 +21,7 @@
     <string name="login_success">登录成功</string>
     <string name="register_success">注册成功</string>
     <string name="update_settings_success">更改成功</string>
-    <string name="text_view_dashboard">控制台</string>
+    <string name="text_view_dashboard">守护者云拐杖</string>
     <string name="back_again_to_exit">再次点击以退出</string>
     <string name="toast_require_login">请登录您的账号！</string>
     <string name="button_view_map">查看位置</string>

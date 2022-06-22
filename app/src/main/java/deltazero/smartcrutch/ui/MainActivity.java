@@ -11,10 +11,8 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -119,19 +117,26 @@ public class MainActivity extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.cancel();
                             Intent intent = new Intent();
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                intent.setAction("android.settings.APP_NOTIFICATION_SETTINGS");
-                                intent.putExtra("android.provider.extra.APP_PACKAGE", MainActivity.this.getPackageName());
-                            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {  //5.0
-                                intent.setAction("android.settings.APP_NOTIFICATION_SETTINGS");
-                                intent.putExtra("app_package", MainActivity.this.getPackageName());
-                                intent.putExtra("app_uid", MainActivity.this.getApplicationInfo().uid);
-                                startActivity(intent);
-                            } else if (Build.VERSION.SDK_INT >= 15) {
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                intent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
-                                intent.setData(Uri.fromParts("package", MainActivity.this.getPackageName(), null));
-                            }
+
+                            intent.setAction("android.settings.APP_NOTIFICATION_SETTINGS");
+                            intent.putExtra("android.provider.extra.APP_PACKAGE", MainActivity.this.getPackageName());
+
+//                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//                                intent.setAction("android.settings.APP_NOTIFICATION_SETTINGS");
+//                                intent.putExtra("android.provider.extra.APP_PACKAGE", MainActivity.this.getPackageName());
+//                            }
+//                            else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {  //5.0
+//                                intent.setAction("android.settings.APP_NOTIFICATION_SETTINGS");
+//                                intent.putExtra("app_package", MainActivity.this.getPackageName());
+//                                intent.putExtra("app_uid", MainActivity.this.getApplicationInfo().uid);
+//                                startActivity(intent);
+//                            }
+//                            else if (Build.VERSION.SDK_INT >= 15) {
+//                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                                intent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
+//                                intent.setData(Uri.fromParts("package", MainActivity.this.getPackageName(), null));
+//                            }
+
                             startActivity(intent);
 
                         }
