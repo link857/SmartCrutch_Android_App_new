@@ -13,6 +13,8 @@ import com.amap.api.maps2d.MapView;
 import com.amap.api.maps2d.model.LatLng;
 import com.amap.api.maps2d.model.MarkerOptions;
 
+import org.jetbrains.annotations.NotNull;
+
 import deltazero.smartcrutch.R;
 import deltazero.smartcrutch.core.API;
 
@@ -70,7 +72,7 @@ public class MapActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(@NotNull Bundle outState) {
         super.onSaveInstanceState(outState);
         mMapView.onSaveInstanceState(outState);
     }

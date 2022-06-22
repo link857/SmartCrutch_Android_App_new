@@ -11,7 +11,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -54,10 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         // Get uuid & init api
-
         mPrefs = getSharedPreferences("deltazero.smartcrutch.prefs", MODE_PRIVATE);
-        mPrefEditor = mPrefs.edit();
-
         uuid = mPrefs.getString("uuid", null);
 
         if (uuid == null) {
@@ -106,20 +102,13 @@ public class MainActivity extends AppCompatActivity {
             AlertDialog alertDialog = new AlertDialog.Builder(this)
                     .setTitle("提示")
                     .setMessage("请在“通知”中打开通知与锁屏通知权限！")
-                    .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                        }
-                    })
-                    .setPositiveButton("去设置", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                            Intent intent = new Intent();
+                    .setNegativeButton("取消", (dialog, which) -> dialog.cancel())
+                    .setPositiveButton("去设置", (dialog, which) -> {
+                        dialog.cancel();
+                        Intent intent = new Intent();
 
-                            intent.setAction("android.settings.APP_NOTIFICATION_SETTINGS");
-                            intent.putExtra("android.provider.extra.APP_PACKAGE", MainActivity.this.getPackageName());
+                        intent.setAction("android.settings.APP_NOTIFICATION_SETTINGS");
+                        intent.putExtra("android.provider.extra.APP_PACKAGE", MainActivity.this.getPackageName());
 
 //                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 //                                intent.setAction("android.settings.APP_NOTIFICATION_SETTINGS");
@@ -137,9 +126,8 @@ public class MainActivity extends AppCompatActivity {
 //                                intent.setData(Uri.fromParts("package", MainActivity.this.getPackageName(), null));
 //                            }
 
-                            startActivity(intent);
+                        startActivity(intent);
 
-                        }
                     })
                     .create();
 
@@ -178,17 +166,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private String createNotificationChannel(String channelID, String channelNAME, int level) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-            NotificationChannel channel = new NotificationChannel(channelID, channelNAME, level);
-            channel.enableLights(true);
-            channel.enableVibration(true);
-            manager.createNotificationChannel(channel);
-            return channelID;
-        } else {
-            return null;
+        NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        NotificationChannel channel = new NotificationChannel(channelID, channelNAME, level);
+        channel.enableLights(true);
+        channel.enableVibration(true);
+        manager.createNotificationChannel(channel);
+        return channelID;
         }
-    }
 
 
     public void updateStatus(int code, String msg, String status) {
@@ -286,8 +270,9 @@ public class MainActivity extends AppCompatActivity {
         timer.cancel();
 
         Log.i(LOGTAG, "Logged out, start login activity");
+        mPrefEditor = mPrefs.edit();
         mPrefEditor.putString("uuid", null);
-        mPrefEditor.commit();
+        mPrefEditor.apply();
 
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);

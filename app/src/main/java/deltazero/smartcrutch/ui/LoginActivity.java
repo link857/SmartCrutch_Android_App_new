@@ -41,7 +41,6 @@ public class LoginActivity extends AppCompatActivity {
         TextView tvAppInfo = findViewById(R.id.login_app_info);
 
         mPrefs = getSharedPreferences("deltazero.smartcrutch.prefs", MODE_PRIVATE);
-        mPrefEditor = mPrefs.edit();
 
         PackageManager manager = this.getPackageManager();
         PackageInfo info = null;
@@ -61,7 +60,7 @@ public class LoginActivity extends AppCompatActivity {
 ////        super.onBackPressed();
 //    }
 
-    // 按返回键退回桌面
+    // 按返回键退回桌面而非到MainActivity界面
     @Override
     public void onBackPressed(){
         Intent home = new Intent(Intent.ACTION_MAIN);
@@ -98,8 +97,10 @@ public class LoginActivity extends AppCompatActivity {
     public void loginCallback(int status, String msg, String uuid) {
         switch (status) {
             case 0: // SUCCESS
+                mPrefEditor = mPrefs.edit();
                 mPrefEditor.putString("uuid", uuid);
-                mPrefEditor.commit();
+                mPrefEditor.apply();
+
                 Log.e("Login", String.format("Login successfully: uuid=%s", uuid));
                 Toast.makeText(this,
                         getString(R.string.login_success),

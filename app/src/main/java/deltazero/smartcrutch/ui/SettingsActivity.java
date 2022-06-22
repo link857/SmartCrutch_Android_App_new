@@ -19,9 +19,9 @@ public class SettingsActivity extends AppCompatActivity {
 
     private TextView tvLanguageInfo;
     private EditText etPhoneInfo, etHomeInfo, etPasswordInfo;
-    private API.Settings settings;
 
     private int easterEggTriggerCount = 0;
+    private API.Settings settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,17 +52,29 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     public void setEmergencyTel(View view) {
+        easterEggTriggerCount ++;
+        if (easterEggTriggerCount > 20) {
+            startActivity(new Intent(this, EasterEggActivity.class));
+        }
     }
 
     public void setHomeLoc(View view) {
+        easterEggTriggerCount ++;
+        if (easterEggTriggerCount > 20) {
+            startActivity(new Intent(this, EasterEggActivity.class));
+        }
     }
 
     public void setPassword(View view) {
+        easterEggTriggerCount ++;
+        if (easterEggTriggerCount > 20) {
+            startActivity(new Intent(this, EasterEggActivity.class));
+        }
     }
 
     public void setLanguage(View view) {
         easterEggTriggerCount ++;
-        if (easterEggTriggerCount > 10) {
+        if (easterEggTriggerCount > 20) {
             startActivity(new Intent(this, EasterEggActivity.class));
             easterEggTriggerCount = 0;
         }
