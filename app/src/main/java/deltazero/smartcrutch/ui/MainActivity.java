@@ -42,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences.Editor mPrefEditor;
     private String appVersionName;
 
+    private int notificationCount = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
 
         // 锁屏显示
         setShowWhenLocked(true);
-
 
         // Get uuid & init api
         mPrefs = getSharedPreferences("deltazero.smartcrutch.prefs", MODE_PRIVATE);
@@ -144,12 +145,19 @@ public class MainActivity extends AppCompatActivity {
     public void onPause() {
         super.onPause();
 //        timer.cancel();
+
+//        timer = new Timer();
+//        timer.scheduleAtFixedRate(new utils.GetStatusTimerTask(this, uuid), 0, 1000);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
 //        timer.cancel();
+
+        // Android 12
+        timer = new Timer();
+        timer.scheduleAtFixedRate(new utils.GetStatusTimerTask(this, uuid), 0, 1000);
     }
 
     @Override
@@ -173,6 +181,7 @@ public class MainActivity extends AppCompatActivity {
         manager.createNotificationChannel(channel);
         return channelID;
         }
+
 
 
     public void updateStatus(int code, String msg, String status) {
@@ -203,7 +212,11 @@ public class MainActivity extends AppCompatActivity {
                         cvStatus.setCardBackgroundColor(getColor(R.color.OrangeRed));
                         btViewMap.setEnabled(true);
 
-                        notificationManager.notify(821, notification.build());
+                        if (notificationCount == 0) {
+                            notificationManager.notify(821, notification.build());
+
+                            notificationCount = 1;
+                        }
 
                         break;
 
@@ -213,6 +226,7 @@ public class MainActivity extends AppCompatActivity {
                         cvStatus.setCardBackgroundColor(getColor(R.color.BlueViolet));
                         btViewMap.setEnabled(true);
 
+                        notificationCount = 0;
                         notificationManager.cancelAll();
 
                         break;
@@ -223,6 +237,7 @@ public class MainActivity extends AppCompatActivity {
                         cvStatus.setCardBackgroundColor(getColor(R.color.LightSlateGray));
                         btViewMap.setEnabled(false);
 
+                        notificationCount = 0;
                         notificationManager.cancelAll();
 
                         break;
@@ -232,6 +247,8 @@ public class MainActivity extends AppCompatActivity {
             case 1:
                 // invalid uuid
                 Log.w(LOGTAG, msg);
+
+                notificationCount = 0;
                 notificationManager.cancelAll();
                 break;
 
@@ -240,6 +257,8 @@ public class MainActivity extends AppCompatActivity {
                 tvStatusInfo.setText(msg);
                 cvStatus.setCardBackgroundColor(getColor(R.color.LightSlateGray));
                 btViewMap.setEnabled(false);
+
+                notificationCount = 0;
                 notificationManager.cancelAll();
                 break;
 
