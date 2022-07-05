@@ -27,13 +27,21 @@
             android:name=".ui.MapActivity"
             android:parentActivityName=".ui.MainActivity" />
         <activity android:name=".ui.LoginActivity" />
+
         <activity
             android:name=".ui.SettingsActivity"
             android:parentActivityName=".ui.MainActivity" />
+
         <activity android:name=".ui.RegisterActivity" />
+
+        <activity
+            android:name=".ui.MonitorActivity"
+            android:parentActivityName=".ui.MainActivity" />
+
         <activity
             android:name=".ui.EasterEggActivity"
             android:parentActivityName=".ui.SettingsActivity" />
+
         <activity
             android:name=".ui.MainActivity"
             android:theme="@style/Theme.SmartCrutch.DayNight.NoActionBar">
@@ -42,6 +50,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>

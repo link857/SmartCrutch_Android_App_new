@@ -276,6 +276,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void launchMonitor(View view) {
+        Intent intent = new Intent(this, MonitorActivity.class);
+        startActivity(intent);
+    }
+
     public void handle_logout(View view) {
         new MaterialAlertDialogBuilder(this)
                 .setTitle(getString(R.string.confirm_logout_title))

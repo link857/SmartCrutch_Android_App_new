@@ -58,4 +58,9 @@
     <string name="easter_egg_activity_title">彩蛋！！！</string>
     <string name="channel_name">紧急通知</string>
     <string name="channel_description">出现紧急情况</string>
+    <string name="continuous_monitor">实时监控</string>
+    <string name="present_view">当前视角：前置摄像头</string>
+    <string name="button_front_view">前置摄像头视角</string>
+    <string name="button_back_view">后置摄像头视角</string>
+    <string name="button_monitor">远程监测</string>
 </resources>

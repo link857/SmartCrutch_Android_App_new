@@ -105,6 +105,18 @@
                 android:layout_marginHorizontal="42sp"
                 android:layout_marginTop="25dp"
                 android:gravity="start|center_vertical"
+                android:onClick="launchMonitor"
+                android:text="@string/button_monitor"
+                app:icon="@drawable/ic_remote_monitor"
+                app:iconPadding="15dp" />
+
+            <com.google.android.material.button.MaterialButton
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginHorizontal="42sp"
+                android:layout_marginTop="10dp"
+                android:gravity="start|center_vertical"
                 android:onClick="launchSettings"
                 android:text="@string/button_launch_settings"
                 app:icon="@drawable/ic_settings_grey_24dp"

@@ -41,6 +41,7 @@
     <string name="status_network_err">Network Error</string>
     <string name="no_location_info">No Location Info</string>
     <string name="no_location">Unable to get the location</string>
+    <string name="button_monitor">Remote Monitor</string>
     <string name="button_logout">Logout</string>
     <string name="location_latlng">Latitude: %1$.2f, Longitude: %2$.2f</string>
     <string name="unknown_location">Unknown location</string>
@@ -49,6 +50,11 @@
     <string name="about_title">About</string>
     <string name="channel_name">Emergency notification</string>
     <string name="channel_description">There is an emergency</string>
+    <string name="continuous_monitor">Continuous Monitor</string>
+    <string name="present_view">Present View: FrontView</string>
+    <string name="button_front_view">Front View</string>
+    <string name="button_back_view">Back  View</string>
+<!--    <string name="present_view" translatable="false">\nSmartCrutch App v%s\n-->
     <string name="about_content" translatable="false">\nSmartCrutch App v%s\n
 By @DeltaZero (https://github.com/233a344a455)\n\n
 Project repo: https://github.com/SZ2G-RoboticsClub/SmartCrutch-Android-App (Currently private)\n\n
