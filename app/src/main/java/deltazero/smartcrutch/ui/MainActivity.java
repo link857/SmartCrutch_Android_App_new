@@ -25,6 +25,7 @@ import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.Timer;
+import java.util.TimerTask;
 
 import deltazero.smartcrutch.R;
 import deltazero.smartcrutch.core.utils;
@@ -32,7 +33,10 @@ import deltazero.smartcrutch.core.utils;
 public class MainActivity extends AppCompatActivity {
 
     final String LOGTAG = "MainActivity";
-    Timer timer = new Timer();
+
+    Timer timer;
+    TimerTask timertask;
+
     private String uuid;
     private TextView tvUserInfo, tvStatus, tvStatusInfo;
     private MaterialButton btViewMap;
@@ -50,8 +54,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Log.w("Create", "create the activity");
+
         // 锁屏显示
         setShowWhenLocked(true);
+
 
         // Get uuid & init api
         mPrefs = getSharedPreferences("deltazero.smartcrutch.prefs", MODE_PRIVATE);
@@ -70,6 +77,11 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Log.i(LOGTAG, String.format("uuid cache found, skip login: uuid=%s", uuid));
         }
+
+
+        timer = new Timer();
+        timertask = new utils.GetStatusTimerTask(this, uuid);
+        timer.scheduleAtFixedRate(timertask, 0, 1000);
 
 
         // Get app version
@@ -144,33 +156,78 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onPause() {
         super.onPause();
-//        timer.cancel();
 
-//        timer = new Timer();
-//        timer.scheduleAtFixedRate(new utils.GetStatusTimerTask(this, uuid), 0, 1000);
+        Log.w("pause", "pause");
+
+//        if (timer == null) {
+//            Log.w("pause_timer", "open here");
+//            timer = new Timer();
+//            timertask = new utils.GetStatusTimerTask(this, uuid);
+//            timer.scheduleAtFixedRate(timertask, 0, 1000);
+//        }
+
+//        timer.cancel();
+//        timer = null;
+//        timertask.cancel();
+//        timertask = null;
+//
+////         Android 12
+//        uuid = mPrefs.getString("uuid", null);
+//        tvUserInfo.setText(String.format(getString(R.string.user_info_text_view), uuid));
+//        if (uuid != null) {
+//            timer = new Timer();
+//            timertask = new utils.GetStatusTimerTask(this, uuid);
+//            timer.scheduleAtFixedRate(timertask, 0, 1000);
+//        } else {
+//            Log.e(LOGTAG, "Got null uuid!");
+//        }
     }
+
+
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-//        timer.cancel();
-
-        // Android 12
-        timer = new Timer();
-        timer.scheduleAtFixedRate(new utils.GetStatusTimerTask(this, uuid), 0, 1000);
+    public void onBackPressed(){
+        Intent home = new Intent(Intent.ACTION_MAIN);
+        home.addCategory(Intent.CATEGORY_HOME);
+        startActivity(home);
     }
+
+
 
     @Override
     protected void onResume() {
         super.onResume();
+
+        Log.w("resume", "reopen the activity");
+
+//        timer.cancel();
+//        timer = null;
+//        timertask = null;
+
         uuid = mPrefs.getString("uuid", null);
         tvUserInfo.setText(String.format(getString(R.string.user_info_text_view), uuid));
-        if (uuid != null) {
-            timer = new Timer();
-            timer.scheduleAtFixedRate(new utils.GetStatusTimerTask(this, uuid), 0, 1000);
-        } else {
+
+//        if (uuid != null) {
+////            timer.cancel();
+//            timer = new Timer();
+//            timertask = new utils.GetStatusTimerTask(this, uuid);
+//            timer.scheduleAtFixedRate(timertask, 0, 1000);
+//        } else {
+//            Log.e(LOGTAG, "Got null uuid!");
+//        }
+
+//        if (timer == null & timertask == null) {
+//            Log.w("resume_timer", "open here");
+//
+//            timer = new Timer();
+//            timertask = new utils.GetStatusTimerTask(this, uuid);
+//            timer.scheduleAtFixedRate(timertask, 0, 1000);
+//        }
+
+        if (uuid == null) {
             Log.e(LOGTAG, "Got null uuid!");
         }
+
     }
 
     private String createNotificationChannel(String channelID, String channelNAME, int level) {
@@ -292,6 +349,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void logout() {
         timer.cancel();
+        timer = null;
+        timertask.cancel();
+        timertask = null;
 
         Log.i(LOGTAG, "Logged out, start login activity");
         mPrefEditor = mPrefs.edit();
