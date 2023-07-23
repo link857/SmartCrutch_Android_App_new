@@ -9,6 +9,7 @@ android {
     defaultConfig {
         applicationId "deltazero.smartcrutch"
         minSdkVersion 27
+        //noinspection ExpiredTargetSdkVersion
         targetSdkVersion 30
         versionCode 10
         versionName "1.0r1"
