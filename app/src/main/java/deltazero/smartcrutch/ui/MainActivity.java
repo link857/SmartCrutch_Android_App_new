@@ -244,7 +244,7 @@ public class MainActivity extends AppCompatActivity {
     public void updateStatus(int code, String msg, String status) {
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
 
         String channelId = createNotificationChannel("emergency", "Emergency Notification", NotificationManager.IMPORTANCE_MAX);
 
@@ -262,6 +262,17 @@ public class MainActivity extends AppCompatActivity {
 
         switch (code) {
             case 0:
+                if (status.equals(null)) {
+                    tvStatus.setText(getString(R.string.status_offline));
+                    tvStatusInfo.setText(getString(R.string.status_info_offline));
+                    cvStatus.setCardBackgroundColor(getColor(R.color.LightSlateGray));
+                    btViewMap.setEnabled(false);
+
+                    notificationCount = 0;
+                    notificationManager.cancelAll();
+
+                    break;
+                }
                 switch (status) {
                     case "emergency":
                         tvStatus.setText(getString(R.string.status_emergency));
@@ -288,7 +299,8 @@ public class MainActivity extends AppCompatActivity {
 
                         break;
 
-                    case "offline":
+                    // 包含"offline"和null
+                    default:
                         tvStatus.setText(getString(R.string.status_offline));
                         tvStatusInfo.setText(getString(R.string.status_info_offline));
                         cvStatus.setCardBackgroundColor(getColor(R.color.LightSlateGray));

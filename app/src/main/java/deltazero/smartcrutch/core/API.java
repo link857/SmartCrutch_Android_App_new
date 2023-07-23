@@ -35,12 +35,12 @@ public class API {
 
     private final static OkHttpClient client = new OkHttpClient();
     private final static Handler mHandler = new Handler(Looper.getMainLooper());
-//    public static final String serverUrl = "http://192.168.0.114:8000/";                 // Tenda_7C8540
+    public static final String serverUrl = "http://192.168.31.109:8000/";                 // 520520
 //    public static final String serverUrl = "http://192.168.130.87:8000/";                // 啊哈
 //    public static final String serverUrl = "http://192.168.31.127:8000/";                // QFCS-MI
 //    public static final String serverUrl = "http://192.168.31.147:8000/";                // QFCS-MI-5G
 
-    public static final String serverUrl = "http://106.52.153.209:8000/";                // 公网服务器
+//    public static final String serverUrl = "http://106.52.153.209:8000/";                // 公网服务器
 
     /* Login
 
@@ -161,7 +161,7 @@ public class API {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 Log.w("get_status", "Get status failed: network error" + e);
-                mHandler.post(() -> uiActivity.updateStatus(-1, e.toString(), null));
+                mHandler.post(() -> uiActivity.updateStatus(-1, e.toString(), "offline"));
             }
 
         });
