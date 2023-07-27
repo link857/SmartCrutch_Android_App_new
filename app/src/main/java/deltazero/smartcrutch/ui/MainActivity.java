@@ -32,6 +32,7 @@ import deltazero.smartcrutch.core.utils;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static ClassLoader instance;
     final String LOGTAG = "MainActivity";
 
     Timer timer;

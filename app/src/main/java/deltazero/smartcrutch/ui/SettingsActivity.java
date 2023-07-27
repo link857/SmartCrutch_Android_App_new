@@ -1,7 +1,12 @@
 package deltazero.smartcrutch.ui;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.Context;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -20,8 +25,10 @@ public class SettingsActivity extends AppCompatActivity {
     private TextView tvLanguageInfo;
     private EditText etPhoneInfo, etHomeInfo, etPasswordInfo;
 
-    private int easterEggTriggerCount = 0;
+    private int languageChoiceCount = 0;
     private API.Settings settings;
+
+    private Locale locale;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +42,11 @@ public class SettingsActivity extends AppCompatActivity {
         etPasswordInfo = findViewById(R.id.settings_tv_password_info);
         tvLanguageInfo = findViewById(R.id.settings_tv_language_info);
 
+
+
         Log.d("settings", "Language: " + Locale.getDefault().getLanguage());
 
+        // 读取之前保存的结果
         switch (Locale.getDefault().getLanguage()) {
             case "zh":
                 tvLanguageInfo.setText(getString(R.string.language_zh));
@@ -52,31 +62,48 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     public void setEmergencyTel(View view) {
-        easterEggTriggerCount ++;
-        if (easterEggTriggerCount > 20) {
+        languageChoiceCount ++;
+        if (languageChoiceCount > 20) {
             startActivity(new Intent(this, EasterEggActivity.class));
         }
     }
 
     public void setHomeLoc(View view) {
-        easterEggTriggerCount ++;
-        if (easterEggTriggerCount > 20) {
+        languageChoiceCount ++;
+        if (languageChoiceCount > 20) {
             startActivity(new Intent(this, EasterEggActivity.class));
         }
     }
 
     public void setPassword(View view) {
-        easterEggTriggerCount ++;
-        if (easterEggTriggerCount > 20) {
+        languageChoiceCount ++;
+        if (languageChoiceCount > 20) {
             startActivity(new Intent(this, EasterEggActivity.class));
         }
     }
 
     public void setLanguage(View view) {
-        easterEggTriggerCount ++;
-        if (easterEggTriggerCount > 20) {
+        // 保存语言后得重启应用，且修改语言得所有地方都修改
+
+        Resources resources = this.getResources();
+        Configuration configuration = resources.getConfiguration();
+        DisplayMetrics displayMetrics = resources.getDisplayMetrics();
+
+        languageChoiceCount ++;
+        if (languageChoiceCount % 2 == 0) {
+            tvLanguageInfo.setText(getString(R.string.language_zh));
+            locale = Locale.SIMPLIFIED_CHINESE;
+        } else if (languageChoiceCount % 2 == 1) {
+            tvLanguageInfo.setText(getString(R.string.language_en));
+            locale = Locale.ENGLISH;
+        }
+
+        configuration.setLocale(locale);
+        resources.updateConfiguration(configuration, displayMetrics);
+
+        if (languageChoiceCount > 20) {
             startActivity(new Intent(this, EasterEggActivity.class));
-            easterEggTriggerCount = 0;
+            languageChoiceCount = 0;
         }
     }
 
