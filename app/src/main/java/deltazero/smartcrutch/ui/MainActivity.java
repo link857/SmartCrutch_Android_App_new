@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
 
         timer = new Timer();
         timertask = new utils.GetStatusTimerTask(this, uuid);
-        timer.scheduleAtFixedRate(timertask, 0, 60000);
+        timer.scheduleAtFixedRate(timertask, 0, 1000);
 
 
         // Get app version
