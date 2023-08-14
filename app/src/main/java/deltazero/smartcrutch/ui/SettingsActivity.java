@@ -1,8 +1,7 @@
 package deltazero.smartcrutch.ui;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -22,13 +21,21 @@ import deltazero.smartcrutch.core.API;
 
 public class SettingsActivity extends AppCompatActivity {
 
+//    final String LOGTAG = "SettingsActivity";
+
     private TextView tvLanguageInfo;
     private EditText etPhoneInfo, etHomeInfo, etPasswordInfo;
+    private String languageSet;
 
-    private int languageChoiceCount = 0;
+    private int languageChoice;
+    private int EasterEggCount = 0;
     private API.Settings settings;
+    private SharedPreferences mPrefs;
+    private SharedPreferences.Editor mPrefEditor;
 
     private Locale locale;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,68 +50,114 @@ public class SettingsActivity extends AppCompatActivity {
         tvLanguageInfo = findViewById(R.id.settings_tv_language_info);
 
 
-
-        Log.d("settings", "Language: " + Locale.getDefault().getLanguage());
-
         // 读取之前保存的结果
-        switch (Locale.getDefault().getLanguage()) {
-            case "zh":
-                tvLanguageInfo.setText(getString(R.string.language_zh));
-                break;
-            default:
-                tvLanguageInfo.setText(getString(R.string.language_en));
+        mPrefs = getSharedPreferences("deltazero.smartcrutch.prefs", MODE_PRIVATE);
+        String uuid = mPrefs.getString("uuid", null);
+//        languageSet = mPrefs.getString("language", getString(R.string.language_zh));
+        languageSet = mPrefs.getString("language", null);
+
+//        Log.d("settings", "Language: " + languageSet);
+        Log.i("settings", "language: "+ languageSet);
+
+        if (languageSet == null){
+            switch (Locale.getDefault().getLanguage()) {
+                case "zh":
+//                    mPrefEditor = mPrefs.edit();
+//                    mPrefEditor.putString("language", getString(R.string.language_zh));
+//                    mPrefEditor.apply();
+
+                    tvLanguageInfo.setText(getString(R.string.language_zh));
+                    languageChoice = 0;
+                    break;
+                default:
+//                    mPrefEditor = mPrefs.edit();
+//                    mPrefEditor.putString("language", getString(R.string.language_zh));
+//                    mPrefEditor.apply();
+
+                    tvLanguageInfo.setText(getString(R.string.language_en));
+                    languageChoice = 1;
+            }
+        } else {
+            tvLanguageInfo.setText(languageSet);
+            switch (languageSet) {
+                case "Simplified Chinese | 简体中文":
+                    languageChoice = 0;
+                    break;
+                case "English | 英语":
+                    languageChoice = 1;
+                    break;
+                default:
+                    Log.e("MainActivity", "language getError: " + languageSet);
+                    languageChoice = -1;
+            }
         }
 
+        Log.i("settings", "LanguageSaved: " + mPrefs.getString("language", null));
+
         // Get settings
-        String uuid = getSharedPreferences("deltazero.smartcrutch.prefs", MODE_PRIVATE)
-                        .getString("uuid", null);
         API.getSettings(this, uuid);
     }
 
     public void setEmergencyTel(View view) {
-        languageChoiceCount ++;
-        if (languageChoiceCount > 20) {
+        EasterEggCount++;
+        if (EasterEggCount > 20) {
             startActivity(new Intent(this, EasterEggActivity.class));
         }
     }
 
     public void setHomeLoc(View view) {
-        languageChoiceCount ++;
-        if (languageChoiceCount > 20) {
+        EasterEggCount++;
+        if (EasterEggCount > 20) {
             startActivity(new Intent(this, EasterEggActivity.class));
         }
     }
 
     public void setPassword(View view) {
-        languageChoiceCount ++;
-        if (languageChoiceCount > 20) {
+        EasterEggCount++;
+        if (EasterEggCount > 20) {
             startActivity(new Intent(this, EasterEggActivity.class));
         }
     }
 
     public void setLanguage(View view) {
-        // 保存语言后得重启应用，且修改语言得所有地方都修改
+        // TODO: 保存语言后得重启应用，且修改语言得所有地方都修改
 
-        Resources resources = this.getResources();
+//        Resources resources = this.getResources();
+        Resources resources = getResources();
         Configuration configuration = resources.getConfiguration();
         DisplayMetrics displayMetrics = resources.getDisplayMetrics();
 
-        languageChoiceCount ++;
-        if (languageChoiceCount % 2 == 0) {
+        languageChoice++;
+        if (languageChoice % 2 == 0) {
+            languageSet = getString(R.string.language_zh);
             tvLanguageInfo.setText(getString(R.string.language_zh));
             locale = Locale.SIMPLIFIED_CHINESE;
-        } else if (languageChoiceCount % 2 == 1) {
+        } else if (languageChoice % 2 == 1) {
+            languageSet = getString(R.string.language_en);
             tvLanguageInfo.setText(getString(R.string.language_en));
             locale = Locale.ENGLISH;
         }
 
+        Log.d("settings", "Language: " + languageSet);
+        mPrefEditor = mPrefs.edit();
+        mPrefEditor.putString("language", languageSet);
+        mPrefEditor.commit();
+
         configuration.setLocale(locale);
         resources.updateConfiguration(configuration, displayMetrics);
 
-        if (languageChoiceCount > 20) {
-            startActivity(new Intent(this, EasterEggActivity.class));
-            languageChoiceCount = 0;
-        }
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+
+//        super.onDestroy();
+        finish();
+//        MainActivity.this.recreate();
+
+//        if (EasterEggCount > 20) {
+//            startActivity(new Intent(this, EasterEggActivity.class));
+//            EasterEggCount = 0;
+//        }
     }
 
     public void loadSettings(int code, String msg, API.Settings settings) {

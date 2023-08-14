@@ -10,8 +10,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -24,6 +27,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -38,7 +42,10 @@ public class MainActivity extends AppCompatActivity {
     Timer timer;
     TimerTask timertask;
 
+    private Locale locale;
+
     private String uuid;
+    private String languageSet;
     private TextView tvUserInfo, tvStatus, tvStatusInfo;
     private MaterialButton btViewMap;
     private MaterialCardView cvStatus;
@@ -53,18 +60,56 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.w("Create", "create the activity");
+
+
+        // SetLanguage and show UI
+
+        mPrefs = getSharedPreferences("deltazero.smartcrutch.prefs", MODE_PRIVATE);
+        languageSet = mPrefs.getString("language", null);
+        if (languageSet == null){
+            switch (Locale.getDefault().getLanguage()) {
+                case "zh":
+                    Log.i("MainActivity", "language get null, turn zh");
+                    locale = Locale.SIMPLIFIED_CHINESE;
+                    break;
+                default:
+                    Log.i("MainActivity", "language get null, turn en");
+                    locale = Locale.ENGLISH;
+            }
+        } else {
+            Log.i("MainActivity", "language get: " + languageSet);
+            switch (languageSet) {
+                case "Simplified Chinese | 简体中文":
+                    locale = Locale.CHINESE;
+                    break;
+                case "English | 英语":
+                    locale = Locale.ENGLISH;
+                    break;
+                default:
+                    Log.e("MainActivity", "language getError: " + languageSet);
+                    locale = Locale.CHINESE;
+            }
+        }
+
+        // set language
+        Resources resources = getResources();
+        Configuration configuration = resources.getConfiguration();
+        DisplayMetrics displayMetrics = resources.getDisplayMetrics();
+        configuration.setLocale(locale);
+        resources.updateConfiguration(configuration, displayMetrics);
+
+        // Initial UI Show
         setContentView(R.layout.activity_main);
 
-        Log.w("Create", "create the activity");
+
 
         // 锁屏显示
         setShowWhenLocked(true);
 
 
         // Get uuid & init api
-        mPrefs = getSharedPreferences("deltazero.smartcrutch.prefs", MODE_PRIVATE);
         uuid = mPrefs.getString("uuid", null);
-
         if (uuid == null) {
 
             // Launch login activity
@@ -82,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
 
         timer = new Timer();
         timertask = new utils.GetStatusTimerTask(this, uuid);
-        timer.scheduleAtFixedRate(timertask, 0, 1000);
+        timer.scheduleAtFixedRate(timertask, 0, 60000);
 
 
         // Get app version

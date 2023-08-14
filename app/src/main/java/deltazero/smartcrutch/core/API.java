@@ -35,10 +35,12 @@ public class API {
 
     private final static OkHttpClient client = new OkHttpClient();
     private final static Handler mHandler = new Handler(Looper.getMainLooper());
-    public static final String serverUrl = "http://192.168.31.109:8000/";                 // 520520
+//    public static final String serverUrl = "http://192.168.31.109:8000/";                // 520520
 //    public static final String serverUrl = "http://192.168.130.87:8000/";                // 啊哈
+    public static final String serverUrl = "http://192.168.164.237:8000/";               // 丁ber
 //    public static final String serverUrl = "http://192.168.31.127:8000/";                // QFCS-MI
 //    public static final String serverUrl = "http://192.168.31.147:8000/";                // QFCS-MI-5G
+//    public static final String serverUrl = "http://172.29.63.134:8000/";                // SYSU-SECURE
 
 //    public static final String serverUrl = "http://106.52.153.209:8000/";                // 公网服务器
 
